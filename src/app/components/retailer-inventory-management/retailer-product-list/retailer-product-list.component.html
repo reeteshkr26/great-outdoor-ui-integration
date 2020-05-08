@@ -1,0 +1,33 @@
+<div class="card mt-5" style="margin:auto; width: 910px;">
+    <mat-card fxFlex="50">
+    <table class="table table-sum" style="border: 1px;">
+      <thead class="table-primary">
+        <th>Product Id</th>
+        <th>Product Category</th>
+        <th>Product Name</th>
+        <th>Product Quantity</th>
+        <th>Total Amount(₹)</th>
+        <th>Product Receive Time</th>
+        <th>Product Receive Date</th>
+      </thead>
+      <ng-container *ngFor="let item of productList; let i=index">
+          <tr >
+            <td>{{item.productId}}</td>
+            <td>{{item.productCategory}}</td>
+            <td>{{item.productName}}</td>
+            <td>{{item.productQuantity}}</td>
+            <td>{{item.totalAmount}}</td>
+            <td>{{item.productReceiveTimeStamp  | timeStampToTime }}</td>
+            <td>{{item.productReceiveTimeStamp | timeStampToDate | date}}</td>
+          </tr>
+    
+      </ng-container>
+  
+    </table>
+</mat-card>
+
+  </div>
+  <button type="submit" class="btn btn-primary" style="margin:1em 0 0 26em;" (click)="goToAddProduct()">Add</button>
+<button type="submit" class="btn btn-primary" style="margin:1em 0 0 5em;"  (click)="goToDeleteProduct()">Delete</button>
+<button type="submit" class="btn btn-primary" style="margin:1em 0 0 5em;" (click)="goToSearchProduct()">Search</button>
+<button type="submit" class="btn btn-primary" style="margin:1em 0 0 5em;" (click)="goToUpdateProduct()">Update</button>
