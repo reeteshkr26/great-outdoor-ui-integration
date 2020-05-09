@@ -69,6 +69,7 @@ import { DeleteAddressComponent } from './components/address-management/delete-a
 import { ViewAddressComponent } from './components/address-management/view-address/view-address.component';
 import {MatDialogModule} from '@angular/material/dialog';
 import { AddressService } from './services/address.service';
+import { ViewProductComponent } from './components/product-management/products/view-product/view-product.component';
 
 @NgModule({
   declarations: [
@@ -109,7 +110,8 @@ import { AddressService } from './services/address.service';
     AddAddressComponent,
     EditAddressComponent,
     DeleteAddressComponent,
-    ViewAddressComponent
+    ViewAddressComponent,
+    ViewProductComponent
   ],
   entryComponents:[CancelOrderComponent],
   imports: [

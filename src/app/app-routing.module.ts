@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { NgModule, Component } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { OrderComponent } from './components/my-order/order/order.component';
 import { ShoppingCartComponent } from './components/shoping-cart/shopping-cart/shopping-cart.component';
@@ -25,6 +25,7 @@ import { RevenueReportComponent } from './components/admin-report-management/rev
 import { MonthlyComponent } from './components/admin-report-management/monthly/monthly.component';
 import { QuaterlyComponent } from './components/admin-report-management/quaterly/quaterly.component';
 import { YearlyComponent } from './components/admin-report-management/yearly/yearly.component';
+import { ViewProductComponent } from './components/product-management/products/view-product/view-product.component';
 
 
 const routes: Routes = [
@@ -38,7 +39,8 @@ const routes: Routes = [
   { path: 'login', component: LoginComponent },
   { path: 'wishlist', component: ViewWishlistComponent },
   { path: 'addProduct', component: AddProductComponent },
-  { path: 'edit/:id', component: UpdateProductComponent },
+  { path: 'view-product/edit/:id', component: UpdateProductComponent },
+  { path: 'view-product', component: ViewProductComponent },
   { path: 'addProductMaster', component: AddProductMasterComponent },
   { path: 'aboutUs', component: AboutUsComponent },
   { path: 'add-retailer-product', component: AddRetailerProductComponent },

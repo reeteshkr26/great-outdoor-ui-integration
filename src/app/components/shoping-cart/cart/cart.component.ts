@@ -112,7 +112,7 @@ export class CartComponent implements OnInit {
      this.orderService.checkOutCart(request).subscribe((data) => {
         alert("checkout process completed.Your Order is processed..");
         this.cartService.getCartDetailsByUser();
-        this.router.navigate(['']);
+        this.router.navigate(['/orders']);
       }, (error) => {
         alert("Error while fetching the cart Details");
       }
