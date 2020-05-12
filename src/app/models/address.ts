@@ -1,8 +1,12 @@
 export class Address {
-    public addid:number;
-    public fullName:string;
-	public  addline: string;
-	public city: string;
-    public pincode: number;
-    public state: string;
+    public addressId:string;
+	public userId:string;
+	public fullName:string;
+	public addressLine:string;
+	public  city:string;
+	public state:string;
+	public pincode:number;
+	public phoneNo:string;
+	public otherPhoneNo:string;
+	public addressType:string;
 }

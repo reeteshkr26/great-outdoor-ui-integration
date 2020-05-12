@@ -22,13 +22,27 @@
     <mat-form-field>
       <input matInput
              spellcheck="false"
-             placeholder="User name"
-             formControlName="userName">
+             placeholder="User Id"
+             formControlName="userId">
       <mat-hint>
-        User name allowed characters are letters and numbers only. No spaces.
+        User Id allowed characters are letters and numbers only. No spaces.
       </mat-hint>
       <mat-error>
-        {{ formErrors['userName'] }}
+        {{ formErrors['userId'] }}
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field>
+      <input matInput
+             #phoneNo
+             spellcheck="false"
+             placeholder="Phone Number"
+             formControlName="phoneNo">
+      <mat-hint>
+        Phone No will never be shared or sold.
+      </mat-hint>
+      <mat-error>
+        {{ formErrors['phoneNo'] }}
       </mat-error>
     </mat-form-field>
 
@@ -93,5 +107,6 @@
     </div>
   </form>
 </main>
+<div class="alert alert-info" *ngIf="success">Product Master added successfully..!!</div>
   </mat-card>
 </div>

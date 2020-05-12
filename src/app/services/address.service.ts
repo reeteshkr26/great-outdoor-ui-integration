@@ -9,31 +9,28 @@ import { HttpClient } from '@angular/common/http';
 })
 export class AddressService {
 
-  addid:number;
-  baseUrl:string;
+  baseUrl: string;
 
-  private apiurl="assets/address.json";
-  constructor(private http:HttpClient) { 
-    //this.baseUrl=`${environment.baseMwUrl}/address`;
+  private apiurl = "assets/address.json";
+  constructor(private http: HttpClient) {
+    this.baseUrl = `${environment.baseMWUrl}/address-service/api`;
+
   }
-  getAddressList():Observable<any[]>{
-    return this.http.get<any[]>(this.apiurl);
+  getAddressList(): Observable<Address[]> {
+    return this.http.get<Address[]>(`${this.baseUrl}/all/${sessionStorage.getItem('userId')}`);
   }
- /* getAddressList():Observable<Address[]>{
-    return this.http.get<Address[]>(this.baseUrl + '/all');  
-}*/
 
-getById(addid: number):Observable<Address>{
-  return this.http.get<Address>(`${this.baseUrl}/${addid}`);  
-}
+  getById(addId: string): Observable<Address> {
+    return this.http.get<Address>(`${this.baseUrl}/address/${addId}`);
+  }
 
-addAddress(addressModel:Address):Observable<Address>{
-  return this.http.post<Address>(this.baseUrl + '/add',addressModel);
-}
-deleteAddress(addid:number):Observable<void>{
-  return this.http.delete<void>(`${this.baseUrl + '/delete'}/${addid}`);
-}
-updateAddress(addid:number, address:Address):Observable<Address>{
-  return this.http.put<Address>(`${this.baseUrl + '/update'}/${addid}`,address);
-}
+  addAddress(addressModel: Address): Observable<Address> {
+    return this.http.post<Address>(`${this.baseUrl}/address/add`, addressModel);
+  }
+  deleteAddress(addId: string): Observable<void> {
+    return this.http.delete<void>(`${this.baseUrl}/address/delete/${addId}`);
+  }
+  updateAddress(address: Address): Observable<Address> {
+    return this.http.put<Address>(`${this.baseUrl}/address/update}`, address);
+  }
 }

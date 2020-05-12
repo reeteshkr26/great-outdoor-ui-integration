@@ -8,8 +8,7 @@
           <mat-label>Product Id</mat-label>
           <input matInput  #id
                  placeholder="Product Id"
-                 formControlName="productId">
-          <mat-hint>First two letters and rest 4 are digits.</mat-hint>
+                 formControlName="productId" readonly>
           <mat-error>{{ formErrors['productId'] }}</mat-error>
         </mat-form-field>
       </div>
@@ -78,5 +77,6 @@
       </div>
 
     </form>
+    <div class="alert alert-info" *ngIf="updateSuccess">Product Update Successfully..!</div>
   </mat-card>
 </div>

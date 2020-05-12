@@ -6,6 +6,7 @@ import { OrderService } from 'src/app/services/order.service';
 import { Router } from '@angular/router';
 import { AddressService } from 'src/app/services/address.service';
 import { Product } from 'src/app/models/product';
+import { Address } from 'src/app/models/address';
 
 @Component({
   selector: 'app-cart',
@@ -21,7 +22,7 @@ export class CartComponent implements OnInit {
   addressId: string = "";
   pay_type = "cash_on_delivery";
 
-  addressList:any[]=[]
+  addressList:Address[]=[];
 
   actualProductPrice: number;
   constructor(private cartService: CartService, private productService: ProductService, 
@@ -31,14 +32,16 @@ export class CartComponent implements OnInit {
 
   ngOnInit(): void {
 
-
-    this.loadCartItems();
-    this.getAddressList();
-    //below function will be triggerd from when removing and qty  is changing..
-    this.cartService.cartServiceEvent.subscribe(data => {
-      this.cartItems = this.cartService.getCartDetails();
-      this.cartTotalPrice = this.cartService.cartTotalPrice;
-    });
+    if((!!sessionStorage.getItem('userId'))&&(sessionStorage.getItem('userRole')=='RETAILER_USER')){
+      this.loadCartItems();
+      this.getAddressList();
+      //below function will be triggerd from when removing and qty  is changing..
+      this.cartService.cartServiceEvent.subscribe(data => {
+        this.cartItems = this.cartService.getCartDetails();
+        this.cartTotalPrice = this.cartService.cartTotalPrice;
+      });
+    }
+ 
   }
 
   loadCartItems() {
@@ -52,37 +55,17 @@ export class CartComponent implements OnInit {
 
   IncreaseQuantity(cartItem: CartItem) {
     //To find actual price of product
-    this.productService.getProductList().subscribe((data: Product[]) => {
-      for (let item of data) {
-        if (item.productId == cartItem.productId) {
-          this.actualProductPrice = item.productPrice;
-          cartItem.quantity += 1;
-          cartItem.productPrice = (this.actualProductPrice * cartItem.quantity);
-          this.cartService.updateCartQuantity(cartItem);
-          break;
-        }
-      }
-
-    });
-
-
+    cartItem.quantity += 1;
+    cartItem.cartItemPrice = (cartItem.actualProductPrice * cartItem.quantity);
+    this.cartService.updateCartQuantity(cartItem);
   }
   decreaseQuantity(cartItem: CartItem) {
 
     if (cartItem.quantity > 1) {
       //To find actual price of product
-      this.productService.getProductList().subscribe((data: Product[]) => {
-        for (let item of data) {
-          if (item.productId == cartItem.productId) {
-            this.actualProductPrice = item.productPrice;
-            cartItem.quantity -= 1;
-            cartItem.productPrice = (this.actualProductPrice * cartItem.quantity);
-            this.cartService.updateCartQuantity(cartItem);
-            break;
-          }
-        }
-
-      });
+      cartItem.quantity -= 1;
+      cartItem.cartItemPrice = (cartItem.actualProductPrice * cartItem.quantity);
+      this.cartService.updateCartQuantity(cartItem);
 
     }
 
@@ -104,7 +87,7 @@ export class CartComponent implements OnInit {
     }
     if (this.pay_type == "cash_on_delivery") {
       var request = {
-        "userId": "admin",
+        "userId": sessionStorage.getItem('userId'),
         "total_price": this.cartTotalPrice,
         "addressId": this.addressId,
         "paymentType": "COD"
@@ -126,8 +109,8 @@ export class CartComponent implements OnInit {
   }
 
   getAddressList(){
-    this.addressService.getAddressList().subscribe(data=>{
-      this.addressList=data;
+    this.addressService.getAddressList().subscribe((data:Address[])=>{
+           this.addressList=data;
     },(error)=>{
       alert("Error while fetching address..")
     }

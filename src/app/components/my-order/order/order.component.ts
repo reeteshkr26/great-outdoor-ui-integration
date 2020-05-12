@@ -19,8 +19,10 @@ export class OrderComponent implements OnInit {
   constructor(private orderService:OrderService,private router:Router,private addressService:AddressService,private productService:ProductService) { }
 
   ngOnInit(): void {
-    this.loadProductList()
-    this.loadOrderList();
+    if((!!sessionStorage.getItem('userId'))&&(sessionStorage.getItem('userRole')=='RETAILER_USER')){
+      this.loadProductList()
+      this.loadOrderList();
+    }   
   }
 
   loadProductList(){
@@ -29,7 +31,7 @@ export class OrderComponent implements OnInit {
     })
   }
   loadOrderList(){
-    this.orderService.getAllOrderList("admin").subscribe((data)=>{
+    this.orderService.getAllOrderList(sessionStorage.getItem('userId')).subscribe((data)=>{
       this.orderList=data;
       console.log(this.orderList);
     },(error)=>{

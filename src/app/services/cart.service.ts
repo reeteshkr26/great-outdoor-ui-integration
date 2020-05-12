@@ -18,14 +18,17 @@ export class CartService {
   public cartQty=0;
  
    constructor(private http:HttpClient,private productService:ProductService,private router:Router) { 
-     this.baseUrl=`${environment.baseMWUrl}/cart`;
-     this.getCartDetailsByUser();
+     this.baseUrl=`${environment.baseMWUrl}/cart-service/api`;
+     if((!!sessionStorage.getItem('userId'))&&(sessionStorage.getItem('userRole')=='RETAILER_USER')){
+      this.getCartDetailsByUser();
+     }
+     
    }
    
    private userName:string="admin"
  
    getCartDetailsByUser(){
-      this.http.get<CartItem[]>(`${this.baseUrl}/${this.userName}`).subscribe(
+      this.http.get<CartItem[]>(`${this.baseUrl}/carts/${sessionStorage.getItem('userId')}`).subscribe(
         (data)=>{
           this.cartItems=data;
           this.cartQty=data.length;
@@ -47,7 +50,7 @@ export class CartService {
      let totalPrice  = 0;
     
      for(var o in obj ){      
-       totalPrice = totalPrice +obj[o].productPrice;
+       totalPrice = totalPrice +obj[o].cartItemPrice;
      }
  
      return totalPrice;
@@ -60,9 +63,9 @@ export class CartService {
  
    addToCart(productItem:Product){
  
-     let cartItem=new CartItem(0,"admin",productItem.productId,productItem.productPrice,productItem.productName,1);
+     let cartItem=new CartItem(0,sessionStorage.getItem('userId'),productItem.productId,productItem.productPrice,1);
      console.log("cartItem");
-     this.http.post<CartItem>(`${this.baseUrl}/addToCart`,cartItem).subscribe(
+     this.http.post<CartItem>(`${this.baseUrl}/carts/addToCart`,cartItem).subscribe(
        (data)=>{
  
          this.getCartDetailsByUser();
@@ -76,19 +79,19 @@ export class CartService {
      );
    }
    removeCartItemByUserNameAndProductId(cartItem:CartItem){
-     this.http.delete(`${this.baseUrl}/removeProductFromCart/${cartItem.userName}/${cartItem.cartId}`).subscribe(
+     this.http.delete(`${this.baseUrl}/carts/removeProductFromCart/${cartItem.userId}/${cartItem.cartId}`).subscribe(
        (data:any)=>{
          this.getCartDetailsByUser();
        },error=>{
          alert("Error while fetching the cart Details");
        });
    }
-   removeAllCartByUserName(userName:String){
-     this.http.delete(`${this.baseUrl}/removeProductFromCart/${userName}`);
+   removeAllCartByUserName(userId:String){
+     this.http.delete(`${this.baseUrl}/carts/removeProductFromCart/${userId}`);
    }
  
    updateCartQuantity(cartItem:CartItem){
-     this.http.put<CartItem>(`${this.baseUrl}/updateCartItem`,cartItem).subscribe(
+     this.http.put<CartItem>(`${this.baseUrl}/carts/updateCartItem`,cartItem).subscribe(
        (data)=>{
          this.getCartDetailsByUser();
        },

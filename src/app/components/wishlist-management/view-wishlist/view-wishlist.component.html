@@ -12,9 +12,9 @@
                                 alt="Card image cap">
                         </div>
                         <div class="card-body">
-                            <h4 class="card-title"><!--{{item.productName}}-->Watch</h4>
-                            <h5 class="card-text">₹{{500}}</h5>
-                            <h6 class="card-text"><!--{{item.specification}}-->specification</h6>
+                            <div class="card-title"><strong style="color: black;">{{item.productName}}</strong></div>
+                            <div class="card-text"><strong style="color: black;">{{item.productPrice|currency:'INR'}}</strong></div>
+                            <div class="card-text"><strong style="color: black;">{{item.productSpecification}}</strong></div>
                         </div>
                         <div class="card-body del">
                             <button (click)="delete(item.productId)" class="btn btn-primary"><i class="fa fa-trash" aria-hidden="true"></i></button>

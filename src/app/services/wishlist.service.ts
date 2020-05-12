@@ -11,17 +11,18 @@ import { Product } from '../models/product';
 export class WishlistService {
   baseUrl: string;
   constructor(private http: HttpClient) {
-    //this.baseUrl=`${environment.baseMwUrl}/wishlist`; //http://localhost:7000/wishlist
+    this.baseUrl=`${environment.baseMWUrl}/wishlist-service/api`
   }
 
   getWishlist(): Observable<WishlistModel[]> {
-    return this.http.get<WishlistModel[]>(this.baseUrl);
+    return this.http.get<WishlistModel[]>(`${this.baseUrl}/wishlist/${sessionStorage.getItem('userId')}`);
   }
 
-  delete(productId: number): Observable<WishlistModel> {
-    return this.http.delete<WishlistModel>(`${this.baseUrl}/${productId}`); //http://localhost:7000/wishlist/2
+  removeFromWishlist(productId: String,userId:string):any {
+    return this.http.delete(`${this.baseUrl}/wishlist/deleteWishlist/${productId}/${userId}`);
   }
-  addtowishlist(product: Product): Observable<Product> {
-    return this.http.post<Product>(this.baseUrl, product); //http://localhost:7000/wishlist/
+  addtowishlist(product: Product): Observable<WishlistModel> {
+    let request=new WishlistModel(product.productId,sessionStorage.getItem('userId'));
+    return this.http.post<WishlistModel>(`${this.baseUrl}/wishlist/addToWishlist`, request); 
   }
 }

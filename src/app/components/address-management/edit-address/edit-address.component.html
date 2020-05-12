@@ -14,14 +14,14 @@
                     <mat-error *ngIf="hasError('fullName', 'required')">Full Name is required</mat-error>
                 </mat-form-field>
                 <mat-form-field class="mb-4">
-                    <input matInput type="text" placeholder="Address Line" formControlName="addline" id="addline">
+                    <input matInput type="text" placeholder="Address Line" formControlName="addressLine" id="addline">
                     <mat-hint align="end">Not more then 60 characters long.</mat-hint>
-                    <mat-error *ngIf="hasError('addline', 'required')">Address Line is required</mat-error>
-                    <mat-error *ngIf="hasError('addline', 'maxlength')">You have more than 60 characters</mat-error>
+                    <mat-error *ngIf="hasError('addressLine', 'required')">Address Line is required</mat-error>
+                    <mat-error *ngIf="hasError('addressLine', 'maxlength')">You have more than 60 characters</mat-error>
                 </mat-form-field>
                 <br>
                 <mat-form-field class="mb-4">
-                    <input matInput type="text" placeholder="City name"  formControlName="city" id="city">
+                    <input matInput type="text" placeholder="City name" formControlName="city" id="city">
                     <mat-hint align="end">Not more then 30 characters long.</mat-hint>
                     <mat-error *ngIf="hasError('city', 'required')">City is required</mat-error>
                     <mat-error *ngIf="hasError('city', 'maxlength')">You have more than 30 characters</mat-error>
@@ -35,10 +35,27 @@
                 </mat-form-field>
                 <br>
                 <mat-form-field class="mb-4">
-                    <input matInput type="text" placeholder="State"  formControlName="state" id="state">
+                    <input matInput type="text" placeholder="State" formControlName="state" id="state">
                     <mat-hint align="end">Not more then 6 characters long.</mat-hint>
                     <mat-error *ngIf="hasError('state', 'required')">State is required</mat-error>
                     <mat-error *ngIf="hasError('state', 'maxlength')">You have more than 30 characters</mat-error>
+                </mat-form-field>
+                <br>
+                <mat-form-field class="mb-4">
+                    <input matInput type="text" placeholder="Phone Number" formControlName="phoneNo" id="phoneNo">
+                    <mat-hint align="end">Not more then 10 digits long.</mat-hint>
+                    <mat-error *ngIf="hasError('phoneNo', 'required')">Phone Number is required</mat-error>
+                    <mat-error *ngIf="hasError('phoneNo', 'maxlength')">You have more than 10 digits</mat-error>
+                </mat-form-field>
+                <br>
+                <mat-form-field class="mb-4">
+                    <input matInput type="text" placeholder="other PhoneNo (optional)" formControlName="otherPhoneNo" id="otherPhoneNo">
+                    <mat-hint align="end">Not more then 10 digits long.</mat-hint>
+                </mat-form-field>
+                <br>
+                <mat-form-field class="mb-4">
+                    <input matInput type="text" placeholder="Address Type" formControlName="addressType" id="addressType">
+                    <mat-error *ngIf="hasError('addressType', 'required')">Address Type is required</mat-error>
                 </mat-form-field>
             </mat-card-content>
             <mat-card-actions align="center">

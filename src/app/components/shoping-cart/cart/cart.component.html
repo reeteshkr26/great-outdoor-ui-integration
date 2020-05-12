@@ -33,7 +33,7 @@
                 </div>
                 <div class="card-text">
                   <p>
-                    <strong style="color: black;">{{ item.productPrice | currency:'INR' }}</strong>
+                    <strong style="color: black;">{{ item.cartItemPrice | currency:'INR' }}</strong>
                   </p>
                 </div>
               </div>
@@ -113,7 +113,7 @@
                             </div>
                             <div class="row" style="margin-top: 1%;">
                                 <div class="col">
-                                    <span>Room No.-{{address.flatNo}}, {{address.colony}}, {{address.cityName}} - {{address.pincode}}</span>
+                                    <span> {{address.addressLine}}, {{address.city}} - {{address.pincode}} ( {{address.state}} )</span>
                                 </div>
                             </div>
                             <div class="row" style="margin-top: 1%;">
@@ -123,7 +123,7 @@
                             </div>
                             <div class="row" >
                                 <div class="col">
-                                    <span>{{address.phoneNo}}</span>
+                                    <span>{{address.phoneNo}} , {{address.otherPhoneNo}}</span>
                                 </div>
                                 <div class="col">
                                   <input type="radio" [value]="address.addressId" [(ngModel)]="addressId" name="addressId">

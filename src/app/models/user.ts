@@ -1,10 +1,10 @@
 export class User {
     userId:string;
-    userName:string;
     password:string;
-    reEnterPassword:string;
     phoneNo:string;
-    emailId:any;
+    email:string;
+    loginToken:string;
+    userRole:string;
     constructor() {
 
     }

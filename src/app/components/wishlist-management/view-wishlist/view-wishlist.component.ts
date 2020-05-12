@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { WishlistModel } from 'src/app/models/wishlist-model';
+import { WishlistService } from 'src/app/services/wishlist.service';
 
 @Component({
   selector: 'app-view-wishlist',
@@ -13,24 +14,23 @@ export class ViewWishlistComponent implements OnInit {
   model:WishlistModel;
   dataNotFound:boolean;
   submitted:boolean;
-  constructor() { }
+  constructor(private wishlistService:WishlistService) { }
 
   ngOnInit(): void {
+    this.loadWishlist();
+  }
+  loadWishlist(){
+    this.wishlistService.getWishlist().subscribe((data:WishlistModel[])=>{
+      this.wishList=data;
+    },(error)=>{
+      console.log(error);
+    })
   }
 
-  delete(productId) {
-    this.submitted = true;
-   /* this.service.delete(productId).subscribe(
-      (data) => {
-        this.dataFound = true;
-        this.model = data;
-        console.log(this.model);
-      },
-      (err) => {
-        this.dataNotFound = true;
-        this.dataFound = false;
-        setTimeout(() => this.dataNotFound = false, 3000);
-      }
-    )*/
+  delete(productId:string) {
+    this.wishlistService.removeFromWishlist(productId,sessionStorage.getItem('userId')).subscribe(() => {
+      alert("item removed from wishlist..")
+      this.loadWishlist();
+    })
   }
 }

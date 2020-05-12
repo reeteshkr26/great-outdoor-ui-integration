@@ -1,18 +1,20 @@
 export class CartItem {
     public cartId:number;
-    public userName:string;
+    public userId:string;
     public productId:string;
-    public productPrice:number;
+    public cartItemPrice:number;
     public productName:string;
+    public productCategory:string;
+    public productColor:string;
+    public actualProductPrice:number;
     public quantity:number;
 
 
-    constructor(cartId:number,userName:string,productId:string,productPrice:number,productName:string,quantity:number){
+    constructor(cartId:number,userName:string,productId:string,productPrice:number,quantity:number){
         this.cartId=cartId;
-        this.userName=userName;
+        this.userId=userName;
         this.productId=productId;
-        this.productPrice=productPrice;
-        this.productName=productName;
+        this.cartItemPrice=productPrice;
         this.quantity=quantity
 
     }

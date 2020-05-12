@@ -6,6 +6,7 @@ import { ProductService } from 'src/app/services/product.service';
 import { AddressService } from 'src/app/services/address.service';
 import { Product } from 'src/app/models/product';
 import { CancelOrderComponent } from '../cancel-order/cancel-order.component';
+import { Address } from 'src/app/models/address';
 
 @Component({
   selector: 'app-order-details',
@@ -19,13 +20,16 @@ export class OrderDetailsComponent implements OnInit {
     ,private addressService:AddressService) { }
 
   orderedItem:any;
-  deliveryAddress:any;
+  deliveryAddress:Address;
   product:Product;
   fullName:string;
   dataLoad:boolean=false;
   ngOnInit(): void {
 
-    this.getOrderIdFromUrl();
+    if((!!sessionStorage.getItem('userId')) && (sessionStorage.getItem('userRole')=='RETAILER_USER')){
+      this.getOrderIdFromUrl();
+    }
+    
   }
 
   getOrderIdFromUrl(){
@@ -46,7 +50,12 @@ export class OrderDetailsComponent implements OnInit {
   }
 
   getAddressAndProductDetails(orderedItem:any){
-      this.addressService.getAddressList().subscribe((data:any[])=>{
+    this.addressService.getById(orderedItem.addressId).subscribe((data:Address)=>{
+      this.deliveryAddress=data;
+    },(err)=>{
+      alert("Error while during fetching address details by address id")
+    })
+     /* this.addressService.getAddressList().subscribe((data:any[])=>{
         for(let address of data){
           if(address.addressId==orderedItem.addressId){
             this.deliveryAddress=address;
@@ -57,8 +66,14 @@ export class OrderDetailsComponent implements OnInit {
         }
       },(err)=>{
         alert("Error while during address fetching by address Id")
-      })
-      this.productService.getProductList().subscribe((data:Product[])=>{
+      })*/
+      this.productService.getProduct(orderedItem.productId).subscribe((res:Product)=>{
+        this.product=res;
+      },(error)=>{
+        alert("Error while during product fetching by product Id");
+      });
+
+     /* this.productService.getProductList().subscribe((data:Product[])=>{
         console.log(data);
           for(let product of data){
             if(product.productId==orderedItem.productId){
@@ -70,7 +85,7 @@ export class OrderDetailsComponent implements OnInit {
           }
       },(err)=>{
         alert("Error while during product fetching by product Id");
-      })
+      })*/
       
   }
 
@@ -83,7 +98,7 @@ export class OrderDetailsComponent implements OnInit {
     
   }
   openHelpPopup(){
-    
+    console.log("Help Popup");
   }
 
 }

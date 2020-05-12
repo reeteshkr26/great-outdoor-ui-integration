@@ -9,50 +9,13 @@ import { Router } from '@angular/router';
   styleUrls: ['./delete-product.component.css']
 })
 export class DeleteProductComponent implements OnInit {
-  productId:string;
-  model:RetailerInventoryProduct;
-  dataFound:boolean;
-  dataNotFound:boolean;
-  submitted:boolean;
-  deletedSuccess:boolean;
-  deleteButtonSubmit:boolean;
 
-  constructor(private service:RetailerInventoryProductService,private router:Router) { }
+
+  constructor() { }
 
   ngOnInit(): void {
   }
 
-  
-  findById(){
-    this.submitted=true; 
-    
-      this.service.findProductById(this.productId).subscribe(
-        (data)=>{
-          this.dataFound=true;
-          this.model=data;
-          console.log(this.model);
-        },
-        (err)=>{
-          this.dataNotFound=true;
-          this.dataFound=false;
-          setTimeout(()=>this.dataNotFound=false,3000);
-        }
-      )
-  }
-  deleteProductById(){
-    if(confirm("Are u sure want to delete?")){
-      this.service.deleteProductById(this.model.productId).subscribe(
-        (data)=>{
-          this.model=null;
-          this.deleteButtonSubmit=true;
-          this.submitted=false;
-          this.deletedSuccess=true;
-          setTimeout(()=>this.deletedSuccess=false,3000);
-          alert('PRODUCT DELETED SUCCESSFULLY :-)' );
-          this.router.navigate(['viewAllProducts']);
-        }
-      )
-    }
-  }
+
 
 }

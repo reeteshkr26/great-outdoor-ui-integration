@@ -2,16 +2,7 @@
     <mat-card fxFlex="40">
       <h3 style="margin-top:10%;text-align: center"><strong>Add Product</strong></h3>
       <form fxLayout="column" [formGroup]="productForm" (ngSubmit)="onSubmit(productForm.value)">
-        <div class="input-row">
-          <mat-form-field fxFlex>
-            <mat-label>Product Id</mat-label>
-            <input matInput  #id
-                   placeholder="Product Id"
-                   formControlName="productId">
-            <mat-hint>First two letters and rest 4 are digits.</mat-hint>
-            <mat-error>{{ formErrors['productId'] }}</mat-error>
-          </mat-form-field>
-        </div>
+        
         <div class="input-row">
           <mat-form-field fxFlex>
             <mat-label>Product Name</mat-label>

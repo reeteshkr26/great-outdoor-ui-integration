@@ -70,6 +70,11 @@ import { ViewAddressComponent } from './components/address-management/view-addre
 import {MatDialogModule} from '@angular/material/dialog';
 import { AddressService } from './services/address.service';
 import { ViewProductComponent } from './components/product-management/products/view-product/view-product.component';
+import { AuthGuard } from './router-guard/auth.guard';
+import { AdminGuard } from './router-guard/admin.guard';
+import { RetailerUserGuard } from './router-guard/retailer-user.guard';
+import { ProductMasterGuard } from './router-guard/product-master.guard';
+import { UpdateRetailerProductComponent } from './components/retailer-inventory-management/update-retailer-product/update-retailer-product.component';
 
 @NgModule({
   declarations: [
@@ -111,9 +116,10 @@ import { ViewProductComponent } from './components/product-management/products/v
     EditAddressComponent,
     DeleteAddressComponent,
     ViewAddressComponent,
-    ViewProductComponent
+    ViewProductComponent,
+    UpdateRetailerProductComponent
   ],
-  entryComponents:[CancelOrderComponent],
+  entryComponents:[CancelOrderComponent,LoginSuccessComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,
@@ -138,7 +144,7 @@ import { ViewProductComponent } from './components/product-management/products/v
     MatTableModule
    
   ],
-  providers: [ProductService,CartService,OrderService,RetailerInventoryProductService,UserService,WishlistService,AddressService,{ provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: { appearance: 'fill' } }],
+  providers: [AuthGuard,AdminGuard,RetailerUserGuard,ProductMasterGuard, ProductService,CartService,OrderService,RetailerInventoryProductService,UserService,WishlistService,AddressService,{ provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: { appearance: 'fill' } }],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

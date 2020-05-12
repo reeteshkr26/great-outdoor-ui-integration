@@ -10,39 +10,40 @@ import { AddressService } from 'src/app/services/address.service';
 })
 export class ViewAddressComponent implements OnInit {
 
-  addressList: Address[];
-  submitted: boolean;
-  dataFound: boolean;
-  dataNotFound: boolean;
+  addressList: Address[]=[];
+  isDeleted: boolean;
+
 
   constructor(private router: Router, private service: AddressService) { }
 
   ngOnInit(): void {
-
-    this.loadAddressList();
+    if((!!sessionStorage.getItem('userId')) && (sessionStorage.getItem('userRole')=='RETAILER_USER')){
+      this.loadAddressList();
+    }
+    
   }
   loadAddressList() {
     this.service.getAddressList().subscribe(
-      (data) => { this.addressList = data; }
+      (data:Address[]) => { this.addressList = data; },
+      (error)=>{alert("Error while during fetching address..!!")}
     );
   }
-  deleteAddress(addid: number) {
-    this.submitted = true;
+  deleteAddress(addid: string) {
+
     this.service.deleteAddress(addid).subscribe(
       (data) => {
-        this.dataFound = true;
+        this.isDeleted=true;
+        setTimeout(()=>this.isDeleted=false,3000)
         this.loadAddressList();
       },
       (err) => {
-        this.dataNotFound = true;
-        this.dataFound = false;
-        setTimeout(() => this.dataNotFound = false, 3000);
+       
       }
     )
   }
-  setId = (addid: number) => {
-    this.service.addid = addid;
-    this.router.navigate(['address/edit-address'])
+  setId = (addid: string) => {
+   // this.service.addid = addid;
+    this.router.navigate(['address/edit-address',addid])
 
   }
 

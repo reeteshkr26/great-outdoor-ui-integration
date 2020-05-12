@@ -1,4 +1,4 @@
-<div fxLayoutAlign="center center"  style="margin-top: 10em"> 
+<!--<div fxLayoutAlign="center center"  style="margin-top: 10em"> 
     <mat-card fxFlex="21">
        <P >Delete Product</P>
             <mat-form-field >
@@ -13,7 +13,7 @@
         <div *ngIf="submitted && dataFound">
             <table class="table table-sum" style="border: 1px;">
                 <thead class="table-primary">
-                    <!-- <th>Retailer Id</th> -->
+                     <th>Retailer Id</th> 
                     <th>Product Id</th>
                     <th>Product Category</th>
                     <th>Product Name</th>
@@ -26,7 +26,7 @@
                 <ng-container>
                 
                     <tr>
-                        <!-- <td>{{model.retailerId}}</td> -->
+                        <td>{{model.retailerId}}</td> 
                         <td>{{model.productId}}</td>
                         <td>{{model.productCategory}}</td>
                         <td>{{model.productName}}</td>
@@ -42,6 +42,6 @@
 
         </div>
         <div class="alert alert-danger" *ngIf="submitted && dataNotFound">Data Not Found</div>
-        <!-- <div class="alert alert-info" *ngIf="deletedSuccess">Deleted successfull!</div> -->
-</div>
+        <div class="alert alert-info" *ngIf="deletedSuccess">Deleted successfull!</div>
+</div>-->
 

@@ -14,6 +14,7 @@ import { ProductCategory } from 'src/app/models/product-category';
 export class UpdateProductComponent extends FormComponentBase implements OnInit, AfterViewInit {
   product: Product;
   id: string;
+  updateSuccess:boolean;
   @ViewChild('id') firstItem: ElementRef;
   productCategory;
   productForm: FormGroup;
@@ -22,8 +23,6 @@ export class UpdateProductComponent extends FormComponentBase implements OnInit,
     this.validationMessages = {
       productId: {
         required: 'Required',
-        maxlength: 'Id maximum length is 10.',
-        pattern: ' First two should be letters and rest are digits.'
       },
       productName: {
         required: 'Required',
@@ -64,18 +63,26 @@ export class UpdateProductComponent extends FormComponentBase implements OnInit,
  
 
   ngOnInit(): void {
-    this.productCategory = ProductCategory;
+    if((!!sessionStorage.getItem('userId'))&&(sessionStorage.getItem('userRole')=='PRODUCT_MASTER')){
+      this.productCategory = ProductCategory;
 
-    this.productForm = this.fb.group({
-      productId: ['', [Validators.required, Validators.pattern('^[a-zA-Z]{2}[0-9]{4}$')]],
-      productName: ['', [Validators.required, Validators.pattern('^[a-zA-Z0-9]+(?:[\w -]*[a-zA-Z0-9]+)*$')]],
-      productPrice: ['', [Validators.required, Validators.pattern('^[1-9][0-9]*')]],
-      productColor: ['', [Validators.required, Validators.pattern('[a-zA-Z][a-zA-Z ]+[a-zA-Z]$')]],
-      productCategory: ['', [Validators.required]],
-      productQuantity: ['', [Validators.required, Validators.pattern('[1-9][0-9]*')]],
-      productSpecification: ['', [Validators.required]],
-    });
+      this.productForm = this.fb.group({
+        productId: [''],
+        productName: ['', [Validators.required, Validators.pattern('^[a-zA-Z0-9]+(?:[\w -]*[a-zA-Z0-9]+)*$')]],
+        productPrice: ['', [Validators.required, Validators.pattern('^[1-9][0-9]*')]],
+        productColor: ['', [Validators.required, Validators.pattern('[a-zA-Z][a-zA-Z ]+[a-zA-Z]$')]],
+        productCategory: ['', [Validators.required]],
+        productQuantity: ['', [Validators.required, Validators.pattern('[1-9][0-9]*')]],
+        productSpecification: ['', [Validators.required]],
+      });
+  
+      this.getProductById();
+    
+    }
 
+  }
+  getProductById(){
+   
     this.id = this.route.snapshot.params.id;
     this.productService.getProduct(this.id)
       .subscribe(data => {
@@ -95,9 +102,12 @@ export class UpdateProductComponent extends FormComponentBase implements OnInit,
     this.productService.updateProduct(this.productForm.value, this.id)
       .subscribe(data => {
         console.log(data);
+        this.updateSuccess=true;
+        setTimeout(()=>this.updateSuccess=false,3000)
+        this.router.navigate(['view-product']);
       }, error => console.log(error));
-    alert('Product updated successfully!');
-    this.router.navigate(['']);
+    
+    
   }
 
 }

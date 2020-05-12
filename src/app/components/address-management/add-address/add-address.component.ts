@@ -21,10 +21,13 @@ export class AddAddressComponent implements OnInit {
     
     this.addressForm= new FormGroup({
       fullName: new FormControl('', [Validators.required]),
-      addline: new FormControl('', [Validators.required, Validators.maxLength(60)]),
+      addressLine: new FormControl('', [Validators.required, Validators.maxLength(60)]),
       city: new FormControl('', [Validators.required, Validators.maxLength(30)]),
       pincode: new FormControl('', [Validators.required, Validators.min(100000),Validators.max(999999)]),
       state: new FormControl('', [Validators.required, Validators.maxLength(30)]),
+      phoneNo: new FormControl('', [Validators.required, Validators.maxLength(10)]),
+      otherPhoneNo: new FormControl(''),
+      addressType: new FormControl('', [Validators.required])
     });
   }
 
@@ -36,26 +39,30 @@ export class AddAddressComponent implements OnInit {
      this.location.back();
   }
  
-  public addAddress = (addressFormValue: {fullName:string, addline: string; city: string; pincode: number; state: string; }) => {
+  public addAddress = (addressFormValue: {fullName:string, addressLine: string; city: string; pincode: number; state: string; phoneNo:string;otherPhoneNo:string; addressType:string}) => {
     if (this.addressForm.valid) {
       this.executeAddressCreation(addressFormValue);
     }
   }
  
-  private executeAddressCreation = (addressFormValue: {fullName:string, addline: string; city: string; pincode: number; state: string; }) => {
+  private executeAddressCreation = (addressFormValue: {fullName:string, addressLine: string; city: string; pincode: number; state: string; phoneNo:string;otherPhoneNo:string; addressType:string }) => {
     let address:Address = {
-      addid: null,
+      addressId: null,
+      userId:sessionStorage.getItem('userId'),
       fullName:addressFormValue.fullName,
-      addline: addressFormValue.addline,
+      addressLine: addressFormValue.addressLine,
       city: addressFormValue.city,
       pincode: addressFormValue.pincode,
-      state: addressFormValue.state
+      state: addressFormValue.state,
+      phoneNo:addressFormValue.phoneNo,
+      otherPhoneNo:addressFormValue.otherPhoneNo,
+      addressType:addressFormValue.addressType
     }   
     this.service.addAddress(address).subscribe(
       (data)=>{
       this.success=true;
       setTimeout(()=>this.success=false,3000);
-      this.router.navigate(['/address'])
+      this.router.navigate(['/address/view-address'])
     })
 }
 

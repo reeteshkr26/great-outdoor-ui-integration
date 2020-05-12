@@ -10,33 +10,42 @@ import { Router } from '@angular/router';
 })
 export class RetailerProductListComponent implements OnInit {
 
-  productList:RetailerInventoryProduct[];
+  productList:RetailerInventoryProduct[]=[];
    model:RetailerInventoryProduct;
+   deleteSuccess:boolean;
   constructor(private service:RetailerInventoryProductService,private router:Router) { }
 
   ngOnInit(): void {
-    this.loadProductList();
+    if((!!sessionStorage.getItem('userId'))&&(sessionStorage.getItem('userRole')=='RETAILER_USER')){
+      this.loadProductList();
+    }
+    
   }
 
   loadProductList(){
-    
-    this.service.getProductList().subscribe(
-      (data) => { this.productList = data; }
-    );
+      this.service.getProductList().subscribe((data:RetailerInventoryProduct[])=>{
+        this.productList=data;
+      },(error)=>{
+        alert("Error while during fetching retailer inventory..!!");
+      })
   }
 
 
+  handleDeleteProductFromInventory(inventoryId:string){
+      this.service.deleteProductByInventoryId(inventoryId).subscribe((data)=>{
+        this.deleteSuccess=true;
+        setTimeout(()=>this.deleteSuccess=false,3000);
+        this.loadProductList();
+      },(err)=>{
+        alert("Error while during deletion.."+ err);
+      });
+      
+  }
+  handleUpdate(inventoryId:string){
+    this.router.navigate(['update-retailer-product',inventoryId])
+  }
   goToAddProduct(){
     this.router.navigate(['add-retailer-product'])
-  }
-  goToDeleteProduct(){
-    this.router.navigate(['delete-retailer-product'])
-  }
-  goToSearchProduct(){
-    this.router.navigate(['search-retailer-product'])
-  }
-  goToUpdateProduct(){
-    this.router.navigate(['update-retailer-product'])
   }
 
 }

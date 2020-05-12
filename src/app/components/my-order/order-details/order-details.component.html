@@ -8,12 +8,12 @@
                 <mat-card-content>
                     <div class="row">
                         <div class="col">
-                            <span><strong>{{fullName}}</strong> </span>
+                            <span><strong>{{deliveryAddress.fullName}}</strong> </span>
                         </div>
                     </div>
                     <div class="row" style="margin-top: 1%;">
                         <div class="col">
-                            <span>Room No.-{{deliveryAddress.flatNo}}, {{deliveryAddress.colony}}, {{deliveryAddress.cityName}} - {{deliveryAddress.pincode}} </span>
+                            <span> {{deliveryAddress.addressLine}}, {{deliveryAddress.city}} - {{deliveryAddress.pincode}} ( {{deliveryAddress.state}} ) </span>
                         </div>
                     </div>
                     <div class="row" style="margin-top: 1%;">
@@ -23,7 +23,7 @@
                     </div>
                     <div class="row" >
                         <div class="col">
-                            <span>{{deliveryAddress.phoneNo}} </span>
+                            <span>{{deliveryAddress.phoneNo}}, {{deliveryAddress.otherPhoneNo}} </span>
                         </div>
                     </div>
                 </mat-card-content>
@@ -53,8 +53,8 @@
                                         </div>
                                         <div class="row" style="padding-top: 1%;">
                                             <div class="col">
-                                                <div><span style="color: grey;">Color: White  Size:M</span> </div>
-                                                <div><span style="color: grey;">Seller: Reliance Fresh</span></div>
+                                                <div><span style="color: grey;">Color: {{product.productColor}} Size:M</span> </div>
+                                                <div><span style="color: grey;">Specification: {{product.productSpecification}}</span></div>
                                             </div>
                                         </div>
                                     </mat-card-content>                               

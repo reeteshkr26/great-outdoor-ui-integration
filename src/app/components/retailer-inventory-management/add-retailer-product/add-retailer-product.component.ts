@@ -27,19 +27,24 @@ export class AddRetailerProductComponent implements OnInit {
     productRecieveDate.setMinutes(Number.parseInt(time[1]))
     console.log(productRecieveDate)
     this.model.productReceiveTimeStamp=productRecieveDate.getTime();
+
+    let productSaleDate=new Date(this.model.productSaleDate);
+    let sTime=this.model.productSaleTime.split(":")
+    productSaleDate.setHours(Number.parseInt(sTime[0]))
+    productSaleDate.setMinutes(Number.parseInt(sTime[1]))
+    console.log(productSaleDate)
+    this.model.productSaleTimeStamp=productSaleDate.getTime();
   
+    this.model.retailerId=sessionStorage.getItem('userId');
     let orb=this.service.addProduct(this.model);
       orb.subscribe((data)=>
       {
         this.success=true;
         setTimeout(()=>this.success=false,3000);
         alert('PRODUCT ADDED SUCCESSFULLY :-)' );
-        this.router.navigate(['viewAllProducts']);
-      })
+        this.router.navigate(['viewall-retailer-product']);
+      },(error)=>{alert("Error:"+error.error)})
   }
 
-  onSubmit() {
-  
-  }
 
 }

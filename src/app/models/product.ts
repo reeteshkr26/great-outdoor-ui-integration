@@ -7,7 +7,7 @@ export class Product {
     public productQuantity:number;
     public productColor:string;
     public productImageUrl:string;
-    public prouctSpecification:string;
+    public productSpecification:string;
     public productCategory: ProductCategory;
-    public isDeleted: boolean;
+    public isDeleted: number;
 }

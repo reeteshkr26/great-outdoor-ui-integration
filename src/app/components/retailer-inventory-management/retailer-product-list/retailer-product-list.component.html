@@ -1,5 +1,7 @@
+
 <div class="card mt-5" style="margin:auto; width: 910px;">
-    <mat-card fxFlex="50">
+  <div class="alert alert-info" *ngIf="productList.length==0">Data not found</div>
+    <mat-card fxFlex="50" *ngIf="productList.length>0">
     <table class="table table-sum" style="border: 1px;">
       <thead class="table-primary">
         <th>Product Id</th>
@@ -9,6 +11,7 @@
         <th>Total Amount(₹)</th>
         <th>Product Receive Time</th>
         <th>Product Receive Date</th>
+        <th>Action</th>
       </thead>
       <ng-container *ngFor="let item of productList; let i=index">
           <tr >
@@ -19,6 +22,10 @@
             <td>{{item.totalAmount}}</td>
             <td>{{item.productReceiveTimeStamp  | timeStampToTime }}</td>
             <td>{{item.productReceiveTimeStamp | timeStampToDate | date}}</td>
+           <td>
+             <button type="submit" class="btn btn-primary" style="margin:1em 0 0 5em;"  (click)="handleDeleteProductFromInventory(item.inventoryId)">Delete</button>
+             <button type="submit" class="btn btn-primary" style="margin:1em 0 0 5em;" (click)="handleUpdate(item.inventoryId)">Edit</button>
+           </td> 
           </tr>
     
       </ng-container>
@@ -27,7 +34,9 @@
 </mat-card>
 
   </div>
-  <button type="submit" class="btn btn-primary" style="margin:1em 0 0 26em;" (click)="goToAddProduct()">Add</button>
-<button type="submit" class="btn btn-primary" style="margin:1em 0 0 5em;"  (click)="goToDeleteProduct()">Delete</button>
-<button type="submit" class="btn btn-primary" style="margin:1em 0 0 5em;" (click)="goToSearchProduct()">Search</button>
-<button type="submit" class="btn btn-primary" style="margin:1em 0 0 5em;" (click)="goToUpdateProduct()">Update</button>
+  <div class="alert alert-info" *ngIf="deleteSuccess">Item Deleted successfull..</div>
+  <div>
+    <button type="submit" class="btn btn-primary" style="margin:1em 0 0 26em;" (click)="goToAddProduct()">Add New Product</button>
+  </div>
+
+

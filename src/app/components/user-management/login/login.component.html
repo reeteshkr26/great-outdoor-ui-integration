@@ -1,3 +1,4 @@
+
 <div style="min-width: 100%; min-height: 200%;  ">
     <br>
     <div class="container" style="max-width: 600px; background-color: white; ">
@@ -28,6 +29,8 @@
             <button [disabled]="loginform.form.invalid" type="submit" class="btn btn-info">Login</button>
         </form>
         <!-- <small (click)="gotoregistration()">New User ? Register here</small> -->
+        <div class="alert alert-danger" *ngIf="isLoginError">invalid userId and password..!</div>
+        
         <br>
         <small [routerLink]="['/registration']" style="cursor: pointer;">New User ? Register here</small>
     </div>

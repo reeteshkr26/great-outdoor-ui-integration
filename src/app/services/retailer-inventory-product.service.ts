@@ -12,22 +12,22 @@ export class RetailerInventoryProductService {
 
   baseUrl:string;
   constructor(private http:HttpClient) {
-    //this.baseUrl=`${environment.baseMwUrl}/inventory`;
+     this.baseUrl=`${environment.baseMWUrl}/inventory-service/api`
    }
 
   getProductList():Observable<RetailerInventoryProduct[]>{
-    return this.http.get<RetailerInventoryProduct[]>(this.baseUrl);  
+    return this.http.get<RetailerInventoryProduct[]>(`${this.baseUrl}/inventory/getAll/${sessionStorage.getItem('userId')}`);  
   }
   addProduct(product:RetailerInventoryProduct):Observable<RetailerInventoryProduct>{
-    return this.http.post<RetailerInventoryProduct>(this.baseUrl,product);
+    return this.http.post<RetailerInventoryProduct>(`${this.baseUrl}/inventory`,product);
   }
-  findProductById(productId:string):Observable<RetailerInventoryProduct>{
-    return this.http.get<RetailerInventoryProduct>(`${this.baseUrl}/${productId}`);
+  findProductByInventoryId(inventoryId:string):Observable<RetailerInventoryProduct>{
+    return this.http.get<RetailerInventoryProduct>(`${this.baseUrl}/inventory/${inventoryId}`);
   }
-  deleteProductById(productId:string):Observable<void>{
-    return this.http.delete<void>(`${this.baseUrl}/${productId}`); 
+  deleteProductByInventoryId(inventoryId:string):Observable<void>{
+    return this.http.delete<void>(`${this.baseUrl}/inventory/${inventoryId}`); 
   }
-  updateProduct(product:RetailerInventoryProduct):Observable<RetailerInventoryProduct>{
-    return this.http.put<RetailerInventoryProduct>(this.baseUrl,product);
+  updateInventoryProduct(product:RetailerInventoryProduct):Observable<RetailerInventoryProduct>{
+    return this.http.put<RetailerInventoryProduct>(`${this.baseUrl}/inventory`,product);
   }
 }

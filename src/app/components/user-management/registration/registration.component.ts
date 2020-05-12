@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { User } from 'src/app/models/user';
+import { UserService } from 'src/app/services/user.service';
 
 @Component({
   selector: 'app-registration',
@@ -11,7 +12,8 @@ export class RegistrationComponent implements OnInit {
 
   user:User;
   msg='';
-  constructor(private _router : Router) { 
+  reEnteredPass:any
+  constructor(private _router : Router,private userService:UserService) { 
     this.user=new User();
   }
 
@@ -19,16 +21,16 @@ export class RegistrationComponent implements OnInit {
   }
 
   registerUser(){
-   /* this._service.registerUserFromRemote(this.user).subscribe(
-      data => {
-        console.log("response received");
-        this._router.navigate(['/login'])
-      },
-      error => {
-        console.log("Exception Occured");
-        this.msg=error.error;
-      }
-    )*/
+    this.user.userRole='RETAILER_USER';
+    this.userService.addUser(this.user).subscribe((data)=>{
+      console.log("response received");
+      alert("Registration Success..!!");
+      this._router.navigate(['/login']);
+    },
+    error => {
+      console.log("Exception Occured");
+      this.msg=error.error;
+    })
 
 }
 

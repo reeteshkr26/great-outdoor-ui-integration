@@ -18,6 +18,7 @@ export class AddProductMasterComponent extends FormComponentBase implements OnIn
   form!: FormGroup;
   hidePassword = true;
   errorMatcher = new CrossFieldErrorMatcher();
+  success:boolean;
   constructor(private formBuilder: FormBuilder, private userService: UserService) {
     super();
 
@@ -26,10 +27,10 @@ export class AddProductMasterComponent extends FormComponentBase implements OnIn
         required: 'Email is required.',
         email: 'Email is not properly formatted.',
       },
-      userName: {
-        required: 'User name is required.',
-        minlength: 'User name minimum length is 6.',
-        maxlength: 'User name maximum length is 15.',
+      userId: {
+        required: 'User id is required.',
+        minlength: 'User id minimum length is 6.',
+        maxlength: 'User id maximum length is 15.',
         pattern: ' Allowed characters letters, numbers only. No spaces.'
       },
       password: {
@@ -48,41 +49,51 @@ export class AddProductMasterComponent extends FormComponentBase implements OnIn
 
       passwordsGroup: {
         passwordsDoNotMatch: 'Passwords must match.'
+      },
+      phoneNo: {
+        required: 'phone number is required.'
       }
     };
 
     this.formErrors = {
       email: '',
-      userName: '',
+      userId: '',
       password: '',
       confirmPassword: '',
-      passwordsGroup: ''
+      passwordsGroup: '',
+      phoneNo:'',
     };
    }
 
   ngOnInit(): void {
  
-
+ if(sessionStorage.getItem('userRole')=='ADMIN'){
     this.form = this.formBuilder.group({
       email: ['', [
         Validators.required,
         Validators.email]],
-      userName: ['', [
+      userId: ['', [
         Validators.required,
         Validators.minLength(6),
         Validators.maxLength(15),
         Validators.pattern('^[a-zA-Z0-9]*[a-zA-Z][a-zA-Z0-9]*$')]],
+        phoneNo:['',[Validators.required]],
       passwordsGroup: this.formBuilder.group({
         password: ['', [
           Validators.required,
           Validators.maxLength(15),
           Validators.pattern('^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{6,}$')]],
+
+          
+
         confirmPassword: ['', [
           Validators.required,
           Validators.maxLength(15),
           Validators.pattern('^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{6,}$')]],
       }, {validators: passwordsDoNotMatch})
     });
+
+  }
   }
 
   ngAfterViewInit(): void {
@@ -96,11 +107,14 @@ export class AddProductMasterComponent extends FormComponentBase implements OnIn
     console.log(this.form.value);
     const getPassword = this.form.get(['passwordsGroup', 'password']).value;
     const getEmail = this.form.get('email').value;
-    const getUsername = this.form.get('userName').value;
-    const user: ProductMaster = {email: getEmail, password: getPassword, userId: '', userName: getUsername};
-    this.userService.addUser(user).subscribe(data =>
-      console.log(data), error => console.log(error));
-    alert('Product Master added!');
+    const getUserId = this.form.get('userId').value;
+    const getPhoneNo = this.form.get('phoneNo').value;
+    const user: User = { userId: getUserId, password: getPassword,phoneNo:getPhoneNo, email: getEmail, loginToken:'',userRole:'PRODUCT_MASTER'};
+    this.userService.addUser(user).subscribe((data) =>{
+      this.success=true;
+      setTimeout(()=>this.success=false,3000)
+    },(error)=>{alert("Error during adding product master")})
+      
     this.form.reset();
   }
 

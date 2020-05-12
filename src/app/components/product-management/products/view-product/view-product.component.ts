@@ -16,26 +16,39 @@ export class ViewProductComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.reloadData();
+    if((!!sessionStorage.getItem('userId'))&&(sessionStorage.getItem('userRole')=='PRODUCT_MASTER')){
+      this.reloadData();
+    }
+    
   }
 
 
   reloadData() {
-    this.productService.getProductList().subscribe(data => {
+    this.productService.getProductList().subscribe((data:Product[] )=> {
       this.products = data;
       console.log(this.products);
+    },(err)=>{
+      alert("error while during fetching product details..!!")
     });
   }
 
 
   deleteProduct(id: string) {
-    this.productService.deleteProduct(id)
-      .subscribe(data => {
-          console.log(data);
+    if (confirm("Are you sure want to delete..?")) {
 
+      this.productService.deleteProduct(id)
+      .subscribe((data) => {
+          console.log(data);
+          alert("Product Deleted Successfull...")
+          this.reloadData();
         },
-        error => console.log(error));
-    this.router.navigate(['']);
+        error => alert("Error while during deletion of product"));
+    }
+    else{
+      console.log('cancel')
+    }
+    
+    
   }
 
 }

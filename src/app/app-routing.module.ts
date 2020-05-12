@@ -26,35 +26,41 @@ import { MonthlyComponent } from './components/admin-report-management/monthly/m
 import { QuaterlyComponent } from './components/admin-report-management/quaterly/quaterly.component';
 import { YearlyComponent } from './components/admin-report-management/yearly/yearly.component';
 import { ViewProductComponent } from './components/product-management/products/view-product/view-product.component';
+import { AuthGuard } from './router-guard/auth.guard';
+import { RetailerUserGuard } from './router-guard/retailer-user.guard';
+import { ProductMasterGuard } from './router-guard/product-master.guard';
+import { AdminGuard } from './router-guard/admin.guard';
+import { UpdateRetailerProductComponent } from './components/retailer-inventory-management/update-retailer-product/update-retailer-product.component';
 
 
 const routes: Routes = [
-  { path: '', component: HomeComponent },
-  { path: 'products', component: ShoppingCartComponent },
-  { path: "cart", component: CartComponent },
-  { path: "orders", component: OrderComponent },
-  { path: "orders/:orderId", component: OrderDetailsComponent },
-  { path: 'loginsuccess', component: LoginSuccessComponent },
+  { path: '', component: HomeComponent,pathMatch:"full" },
+  { path: 'products', component: ShoppingCartComponent,canActivate:[AuthGuard,RetailerUserGuard] },
+  { path: "cart", component: CartComponent,canActivate:[AuthGuard,RetailerUserGuard] },
+  { path: "orders", component: OrderComponent,canActivate:[AuthGuard,RetailerUserGuard] },
+  { path: "orders/:orderId", component: OrderDetailsComponent,canActivate:[AuthGuard,RetailerUserGuard] },
+  { path: 'loginsuccess', component: LoginSuccessComponent,canActivate:[AuthGuard] },
   { path: 'registration', component: RegistrationComponent },
   { path: 'login', component: LoginComponent },
-  { path: 'wishlist', component: ViewWishlistComponent },
-  { path: 'addProduct', component: AddProductComponent },
-  { path: 'view-product/edit/:id', component: UpdateProductComponent },
-  { path: 'view-product', component: ViewProductComponent },
-  { path: 'addProductMaster', component: AddProductMasterComponent },
+  { path: 'wishlist', component: ViewWishlistComponent,canActivate:[AuthGuard,RetailerUserGuard] },
+  { path: 'addProduct', component: AddProductComponent,canActivate:[AuthGuard,ProductMasterGuard] },
+  { path: 'view-product/edit/:id', component: UpdateProductComponent,canActivate:[AuthGuard,ProductMasterGuard] },
+  { path: 'view-product', component: ViewProductComponent,canActivate:[AuthGuard,ProductMasterGuard] },
+  { path: 'addProductMaster', component: AddProductMasterComponent,canActivate:[AuthGuard,AdminGuard] },
   { path: 'aboutUs', component: AboutUsComponent },
-  { path: 'add-retailer-product', component: AddRetailerProductComponent },
-  { path: 'delete-retailer-product', component: DeleteProductComponent },
-  { path: 'search-retailer-product', component: SearchProductComponent },
-  { path: 'viewall-retailer-product', component: RetailerProductListComponent },
-  { path: 'address/view-address', component: ViewAddressComponent },
-  { path: 'address/add-address', component: AddAddressComponent },
-  { path: 'address/edit-address', component: EditAddressComponent },
-  { path: 'growth-report', component: GrowthReportComponent },
-  { path: 'revenue-report', component: RevenueReportComponent },
-  { path: 'monthly', component: MonthlyComponent },
-  { path: 'quaterly', component: QuaterlyComponent },
-  { path: 'yearly', component: YearlyComponent }
+  { path: 'add-retailer-product', component: AddRetailerProductComponent,canActivate:[AuthGuard,RetailerUserGuard] },
+  { path: 'delete-retailer-product', component: DeleteProductComponent,canActivate:[AuthGuard,RetailerUserGuard] },
+  { path: 'search-retailer-product', component: SearchProductComponent,canActivate:[AuthGuard,RetailerUserGuard] },
+  { path: 'update-retailer-product/:inventoryId', component: UpdateRetailerProductComponent,canActivate:[AuthGuard,RetailerUserGuard] },
+  { path: 'viewall-retailer-product', component: RetailerProductListComponent,canActivate:[AuthGuard,RetailerUserGuard] },
+  { path: 'address/view-address/:addressId', component: ViewAddressComponent,canActivate:[AuthGuard,RetailerUserGuard] },
+  { path: 'address/add-address', component: AddAddressComponent,canActivate:[AuthGuard,RetailerUserGuard] },
+  { path: 'address/edit-address', component: EditAddressComponent,canActivate:[AuthGuard,RetailerUserGuard] },
+  { path: 'growth-report', component: GrowthReportComponent,canActivate:[AuthGuard,AdminGuard] },
+  { path: 'revenue-report', component: RevenueReportComponent,canActivate:[AuthGuard,AdminGuard] },
+  { path: 'monthly', component: MonthlyComponent,canActivate:[AuthGuard,AdminGuard] },
+  { path: 'quaterly', component: QuaterlyComponent,canActivate:[AuthGuard,AdminGuard] },
+  { path: 'yearly', component: YearlyComponent,canActivate:[AuthGuard,AdminGuard] }
 
 ];
 

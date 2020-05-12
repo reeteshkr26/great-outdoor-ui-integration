@@ -14,15 +14,11 @@ export class AddProductComponent extends FormComponentBase implements OnInit, Af
 
   @ViewChild('id') firstItem: ElementRef;
   productCategory;
+  addedSuccess:boolean;
   productForm: FormGroup;
   constructor(private fb: FormBuilder, private productService: ProductService) { 
     super();
     this.validationMessages = {
-      productId: {
-        required: 'Required',
-        maxlength: 'Id maximum length is 10.',
-        pattern: ' First two should be letters and rest are digits.'
-      },
       productName: {
         required: 'Required',
         maxlength: 'Id maximum length is 10.',
@@ -50,7 +46,6 @@ export class AddProductComponent extends FormComponentBase implements OnInit, Af
 
     };
     this.formErrors = {
-      productId: '',
       productName: '',
       productPrice: '',
       productColor: '',
@@ -65,7 +60,6 @@ export class AddProductComponent extends FormComponentBase implements OnInit, Af
     this.productCategory = ProductCategory;
 
     this.productForm = this.fb.group({
-      productId: ['', [Validators.required, Validators.pattern('^[a-zA-Z]{2}[0-9]{4}$')]],
       productName: ['', [Validators.required, Validators.pattern('^[a-zA-Z0-9]+(?:[\w -]*[a-zA-Z0-9]+)*$')]],
       productPrice: ['', [Validators.required, Validators.pattern('^[1-9][0-9]*')]],
       productColor: ['', [Validators.required, Validators.pattern('[a-zA-Z][a-zA-Z ]+[a-zA-Z]$')]],
@@ -75,12 +69,14 @@ export class AddProductComponent extends FormComponentBase implements OnInit, Af
     });
   }
   onSubmit(value: Product) {
+  console.log(value);
     this.productService.addProduct(this.productForm.value).subscribe(data =>
         data,
       error => console.log(error),
       () => {
         alert('Product added successfully!');
       });
+      this.productForm.reset();
   }
 
   ngAfterViewInit(): void {
