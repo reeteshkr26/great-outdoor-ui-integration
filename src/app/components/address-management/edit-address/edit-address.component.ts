@@ -5,6 +5,11 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { AddressService } from 'src/app/services/address.service';
 import { Location } from '@angular/common';
 
+interface AddressType {
+  value: string;
+  viewValue: string;
+}
+
 @Component({
   selector: 'app-edit-address',
   templateUrl: './edit-address.component.html',
@@ -17,6 +22,11 @@ export class EditAddressComponent implements OnInit {
   addressModel:Address;
   addressForm:FormGroup;
   valueModel:Address;
+  addressTypes: AddressType[] = [
+    {value: 'HOME', viewValue: 'HOME'},
+    {value: 'OFFICE', viewValue: 'OFFICE'},
+    {value: 'OTHER', viewValue: 'OTHER'}
+  ];
 
   constructor(private router:Router, private location: Location, private service:AddressService,private route:ActivatedRoute) { 
     this.addressModel=new Address();
@@ -24,6 +34,7 @@ export class EditAddressComponent implements OnInit {
 
   ngOnInit(): void {
     this.addressForm= new FormGroup({
+      addressId:new FormControl(''),
       fullName: new FormControl('', [Validators.required]),
       addressLine: new FormControl('', [Validators.required, Validators.maxLength(60)]),
       city: new FormControl('', [Validators.required, Validators.maxLength(30)]),
@@ -51,6 +62,7 @@ export class EditAddressComponent implements OnInit {
     this.service.getById(this.addressId).subscribe(
     (data:Address) => {
       this.valueModel=data;
+      this.addressForm.get('addressId').setValue(this.valueModel.addressId);
       this.addressForm.get('fullName').setValue(this.valueModel.fullName);
       this.addressForm.get('addressLine').setValue(this.valueModel.addressLine);
       this.addressForm.get('city').setValue(this.valueModel.city);
@@ -70,32 +82,29 @@ export class EditAddressComponent implements OnInit {
      this.location.back();
   }
  
-  public addAddress = (addressFormValue: {fullName:string, addressLine: string; city: string; pincode: number; state: string; phoneNo:string;otherPhoneNo:string; addressType:string }) => {
-    if (this.addressForm.valid) {
-      this.executeAddressCreation(addressFormValue);
-    }
-  }
-  private executeAddressCreation = (addressFormValue: {fullName:string, addressLine: string; city: string; pincode: number; state: string; phoneNo:string;otherPhoneNo:string; addressType:string }) => {
-    let address: Address = {
-      addressId:this.addressId,
-      userId:sessionStorage.getItem('userId'),
-      fullName:addressFormValue.fullName,
-      addressLine: addressFormValue.addressLine,
-      city: addressFormValue.city,
-      pincode: addressFormValue.pincode,
-      state: addressFormValue.state,
-      phoneNo:addressFormValue.phoneNo,
-      otherPhoneNo:addressFormValue.otherPhoneNo,
-      addressType:addressFormValue.addressType
-    } 
-    this.service.updateAddress(address).subscribe(
-      (data)=>{
+
+onSubmit(value:any){
+  if (this.addressForm.valid) {
+    this.addressModel=Object.assign(this.addressModel,this.addressForm.value);
+    this.addressModel.userId=sessionStorage.getItem('userId');
+    console.log(this.addressModel);
+   
+ 
+    this.service.updateAddress(this.addressModel).subscribe(
+      (data:Address)=>{
+        console.log(data);
       this.success=true;
       setTimeout(()=>this.success=false,3000);
-      this.router.navigate(['/address'])
+      this.router.navigate(['address/view-address'])
     },(error)=>{
-      alert("Error while during udation of address")
+      alert("Error while during updation of address"+ error.error)
     })
+  }
+  else{
+    console.log("Error in form");
+    return;
+  }
+  
 }
 
 }

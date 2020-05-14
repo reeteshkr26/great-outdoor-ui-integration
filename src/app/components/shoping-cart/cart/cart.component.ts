@@ -97,7 +97,8 @@ export class CartComponent implements OnInit {
         this.cartService.getCartDetailsByUser();
         this.router.navigate(['/orders']);
       }, (error) => {
-        alert("Error while fetching the cart Details");
+        console.log(error.error);
+        //alert("Error while fetching the cart Details");
       }
       )
       console.log("ok");
@@ -112,7 +113,8 @@ export class CartComponent implements OnInit {
     this.addressService.getAddressList().subscribe((data:Address[])=>{
            this.addressList=data;
     },(error)=>{
-      alert("Error while fetching address..")
+      console.log(error.error);
+      //alert("Error while fetching address..")
     }
     )
   }

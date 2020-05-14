@@ -1,9 +1,10 @@
 
-<div class="card mt-5" style="margin:auto; width: 910px;">
+<div class="card mt-8" style="margin-top: 1%;">
   <div class="alert alert-info" *ngIf="productList.length==0">Data not found</div>
-    <mat-card fxFlex="50" *ngIf="productList.length>0">
+    <mat-card fxFlex="80" *ngIf="productList.length>0">
     <table class="table table-sum" style="border: 1px;">
       <thead class="table-primary">
+        <th>Retailer Id</th>
         <th>Product Id</th>
         <th>Product Category</th>
         <th>Product Name</th>
@@ -11,21 +12,31 @@
         <th>Total Amount(₹)</th>
         <th>Product Receive Time</th>
         <th>Product Receive Date</th>
+        <th>Product Sale Time</th>
+        <th>Product Sale Date</th>
         <th>Action</th>
       </thead>
       <ng-container *ngFor="let item of productList; let i=index">
           <tr >
+            <td>{{item.retailerId}}</td>
             <td>{{item.productId}}</td>
             <td>{{item.productCategory}}</td>
             <td>{{item.productName}}</td>
             <td>{{item.productQuantity}}</td>
-            <td>{{item.totalAmount}}</td>
-            <td>{{item.productReceiveTimeStamp  | timeStampToTime }}</td>
+            <td>{{item.totalAmount | currency:"₹"}}</td>
+            <td>{{item.productReceiveTimeStamp | timeStampToTime}}</td>
             <td>{{item.productReceiveTimeStamp | timeStampToDate | date}}</td>
-           <td>
-             <button type="submit" class="btn btn-primary" style="margin:1em 0 0 5em;"  (click)="handleDeleteProductFromInventory(item.inventoryId)">Delete</button>
-             <button type="submit" class="btn btn-primary" style="margin:1em 0 0 5em;" (click)="handleUpdate(item.inventoryId)">Edit</button>
-           </td> 
+            <td>{{item.productSaleTimeStamp | timeStampToTime }}</td>
+            <td>{{item.productSaleTimeStamp | timeStampToDate | date}}</td>
+            <td class="btn btn-group">
+
+              <button type="submit" class="btn btn-primary" style="margin:1em 0 0 5em;" (click)="handleUpdate(item.inventoryId)">
+              <i class="fa fa-edit"></i>
+            </button>
+              <button type="submit" class="btn btn-primary" style="margin:1em 0 0 5em;"  (click)="handleDeleteProductFromInventory(item.inventoryId)">
+              <i class="fa fa-trash"></i>
+              </button>
+          </td>
           </tr>
     
       </ng-container>

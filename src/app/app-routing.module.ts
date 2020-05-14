@@ -15,7 +15,6 @@ import { AddProductMasterComponent } from './components/product-management/add-p
 import { AboutUsComponent } from './components/shared/about-us/about-us.component';
 import { AddRetailerProductComponent } from './components/retailer-inventory-management/add-retailer-product/add-retailer-product.component'
 import { RetailerProductListComponent } from './components/retailer-inventory-management/retailer-product-list/retailer-product-list.component';
-import { DeleteProductComponent } from './components/retailer-inventory-management/delete-product/delete-product.component';
 import { SearchProductComponent } from './components/retailer-inventory-management/search-product/search-product.component';
 import { ViewAddressComponent } from './components/address-management/view-address/view-address.component';
 import { AddAddressComponent } from './components/address-management/add-address/add-address.component';
@@ -31,6 +30,7 @@ import { RetailerUserGuard } from './router-guard/retailer-user.guard';
 import { ProductMasterGuard } from './router-guard/product-master.guard';
 import { AdminGuard } from './router-guard/admin.guard';
 import { UpdateRetailerProductComponent } from './components/retailer-inventory-management/update-retailer-product/update-retailer-product.component';
+import { LoginGuard } from './router-guard/login.guard';
 
 
 const routes: Routes = [
@@ -40,8 +40,8 @@ const routes: Routes = [
   { path: "orders", component: OrderComponent,canActivate:[AuthGuard,RetailerUserGuard] },
   { path: "orders/:orderId", component: OrderDetailsComponent,canActivate:[AuthGuard,RetailerUserGuard] },
   { path: 'loginsuccess', component: LoginSuccessComponent,canActivate:[AuthGuard] },
-  { path: 'registration', component: RegistrationComponent },
-  { path: 'login', component: LoginComponent },
+  { path: 'registration', component: RegistrationComponent , canActivate:[LoginGuard]},
+  { path: 'login', component: LoginComponent, canActivate:[LoginGuard] },
   { path: 'wishlist', component: ViewWishlistComponent,canActivate:[AuthGuard,RetailerUserGuard] },
   { path: 'addProduct', component: AddProductComponent,canActivate:[AuthGuard,ProductMasterGuard] },
   { path: 'view-product/edit/:id', component: UpdateProductComponent,canActivate:[AuthGuard,ProductMasterGuard] },
@@ -49,13 +49,12 @@ const routes: Routes = [
   { path: 'addProductMaster', component: AddProductMasterComponent,canActivate:[AuthGuard,AdminGuard] },
   { path: 'aboutUs', component: AboutUsComponent },
   { path: 'add-retailer-product', component: AddRetailerProductComponent,canActivate:[AuthGuard,RetailerUserGuard] },
-  { path: 'delete-retailer-product', component: DeleteProductComponent,canActivate:[AuthGuard,RetailerUserGuard] },
   { path: 'search-retailer-product', component: SearchProductComponent,canActivate:[AuthGuard,RetailerUserGuard] },
   { path: 'update-retailer-product/:inventoryId', component: UpdateRetailerProductComponent,canActivate:[AuthGuard,RetailerUserGuard] },
   { path: 'viewall-retailer-product', component: RetailerProductListComponent,canActivate:[AuthGuard,RetailerUserGuard] },
-  { path: 'address/view-address/:addressId', component: ViewAddressComponent,canActivate:[AuthGuard,RetailerUserGuard] },
+  { path: 'address/view-address', component: ViewAddressComponent,canActivate:[AuthGuard,RetailerUserGuard] },
   { path: 'address/add-address', component: AddAddressComponent,canActivate:[AuthGuard,RetailerUserGuard] },
-  { path: 'address/edit-address', component: EditAddressComponent,canActivate:[AuthGuard,RetailerUserGuard] },
+  { path: 'address/edit-address/:addressId', component: EditAddressComponent,canActivate:[AuthGuard,RetailerUserGuard] },
   { path: 'growth-report', component: GrowthReportComponent,canActivate:[AuthGuard,AdminGuard] },
   { path: 'revenue-report', component: RevenueReportComponent,canActivate:[AuthGuard,AdminGuard] },
   { path: 'monthly', component: MonthlyComponent,canActivate:[AuthGuard,AdminGuard] },

@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
 import { Observable } from 'rxjs';
+import { OrderModel } from '../models/order-model';
 
 @Injectable({
   providedIn: 'root'
@@ -16,11 +17,12 @@ export class OrderService {
   checkOutCart(request:any):Observable<any>{
      return this.http.post<any>(`${this.baseUrl}/orders`,request);
   }
-  getAllOrderList(userId:string):Observable<any[]>{
-    return this.http.get<any[]>(`${this.baseUrl}/orders/userId/${userId}`);
+  getAllOrderList(userId:string):Observable<OrderModel[]>{
+    console.log(userId);
+    return this.http.get<OrderModel[]>(`${this.baseUrl}/orders/userId/${userId}`);
   }
-  getOrderByOrderId(orderId:string):Observable<any>{
-    return this.http.get<any>(`${this.baseUrl}/orders/orderId/${orderId}`);
+  getOrderByOrderId(orderId:string):Observable<OrderModel>{
+    return this.http.get<OrderModel>(`${this.baseUrl}/orders/orderId/${orderId}`);
   }
   updateOrderDispatchStatus(orderId:string):Observable<any>{
     let statusCode={

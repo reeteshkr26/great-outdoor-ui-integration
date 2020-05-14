@@ -10,40 +10,47 @@ import { Router } from '@angular/router';
 })
 export class AddRetailerProductComponent implements OnInit {
 
-  success:boolean;
-  categoryList=["Camping Equipment","Golf Equipment","Mountaineering Equipment","Outdoor Protection","Personal Accessories"];
-  model:RetailerInventoryProduct;
-  constructor(private service:RetailerInventoryProductService,private router:Router) { 
-    this.model= new RetailerInventoryProduct();
+  success: boolean;
+  categoryList = ["Camping Equipment", "Golf Equipment", "Mountaineering Equipment", "Outdoor Protection", "Personal Accessories"];
+  model: RetailerInventoryProduct;
+  maxDate = new Date(new Date().setDate(new Date().getDate()));
+  constructor(private service: RetailerInventoryProductService, private router: Router) {
+    this.model = new RetailerInventoryProduct();
   }
 
   ngOnInit(): void {
   }
 
-  addProduct(){
-    let productRecieveDate=new Date(this.model.productReceiveDate);
-    let time=this.model.productReceiveTime.split(":")
+  addProduct() {
+    let productRecieveDate = new Date(this.model.productReceiveDate);
+    let time = this.model.productReceiveTime.split(":")
     productRecieveDate.setHours(Number.parseInt(time[0]))
     productRecieveDate.setMinutes(Number.parseInt(time[1]))
     console.log(productRecieveDate)
-    this.model.productReceiveTimeStamp=productRecieveDate.getTime();
+    this.model.productReceiveTimeStamp = productRecieveDate.getTime();
 
-    let productSaleDate=new Date(this.model.productSaleDate);
-    let sTime=this.model.productSaleTime.split(":")
+    let productSaleDate = new Date(this.model.productSaleDate);
+    let sTime = this.model.productSaleTime.split(":")
     productSaleDate.setHours(Number.parseInt(sTime[0]))
     productSaleDate.setMinutes(Number.parseInt(sTime[1]))
     console.log(productSaleDate)
-    this.model.productSaleTimeStamp=productSaleDate.getTime();
-  
-    this.model.retailerId=sessionStorage.getItem('userId');
-    let orb=this.service.addProduct(this.model);
-      orb.subscribe((data)=>
-      {
-        this.success=true;
-        setTimeout(()=>this.success=false,3000);
-        alert('PRODUCT ADDED SUCCESSFULLY :-)' );
+    this.model.productSaleTimeStamp = productSaleDate.getTime();
+
+    this.model.retailerId = sessionStorage.getItem('userId');
+
+    if (new Date(this.model.productSaleTimeStamp) < new Date(this.model.productReceiveTimeStamp)) {
+      alert('End Date cant be before start date');
+    }
+
+    else {
+      let orb = this.service.addProduct(this.model);
+      orb.subscribe((data) => {
+        this.success = true;
+        setTimeout(() => this.success = false, 3000);
+        alert('PRODUCT ADDED SUCCESSFULLY :-)');
         this.router.navigate(['viewall-retailer-product']);
-      },(error)=>{alert("Error:"+error.error)})
+      }, (error) => { alert("Error:" + error.error) })
+    }
   }
 
 

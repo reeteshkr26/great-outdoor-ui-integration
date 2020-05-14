@@ -3,6 +3,8 @@ import { Product } from 'src/app/models/product';
 import { ProductService } from 'src/app/services/product.service';
 import { WishlistService } from 'src/app/services/wishlist.service';
 import { map } from 'rxjs/operators';
+import { CartService } from 'src/app/services/cart.service';
+import { CartItem } from 'src/app/models/cart-item';
 
 @Component({
   selector: 'app-product-list',
@@ -13,12 +15,14 @@ export class ProductListComponent implements OnInit {
 
   productList:Product[]=[];
   wishlistProductId:any[]=[];
-  constructor(private productService:ProductService,private wishlistService:WishlistService) { }
+  cartPrductIds:any[]=[];
+  constructor(private productService:ProductService,private wishlistService:WishlistService,private cartService:CartService) { }
 
   ngOnInit(): void {
     if((!!sessionStorage.getItem('userId'))&&(sessionStorage.getItem('userRole')=='RETAILER_USER')){
       this.loadProductList();
       this.loadWishlist();
+      this.loadCartsInfo();
     }
    
   }
@@ -28,6 +32,13 @@ export class ProductListComponent implements OnInit {
         this.productList=data;
       }
     )
+  }
+  loadCartsInfo(){
+   this.cartService.getAllProductIdFromCart().subscribe((res:[])=>{
+     this.cartPrductIds=res;
+     console.log(this.cartPrductIds)
+   })
+    
   }
   loadWishlist(){
       this.wishlistService.getWishlist().pipe(    

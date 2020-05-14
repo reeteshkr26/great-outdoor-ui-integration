@@ -18,13 +18,13 @@
                   <mat-card-content>
                       <div class="row">
                           <div class="col">
-                              <span style="color: black; font-size: medium;">{{getProductNameById(orderItem.productId)|slice:0:40}}...</span>
+                              <span style="color: black; font-size: medium;">{{orderItem.productModel.productName|slice:0:40}}...</span>
                           </div>                         
                       </div>
                       <div class="row" style="padding-top: 1%;">
                           <div class="col">
-                              <div><span style="color: grey;">Color: {{productItem.productColor}}  Size:M</span> </div>
-                              <div><span style="color: grey;">Specification: {{productItem.productSpecification}}</span></div>
+                              <div><span style="color: grey;">Color: {{orderItem.productModel.productColor}}  Size:M</span> </div>
+                              <div><span style="color: grey;">Specification: {{orderItem.productModel.productSpecification}}</span></div>
                           </div>
                       </div>
                   </mat-card-content>                               

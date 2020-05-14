@@ -25,21 +25,27 @@ export class ViewAddressComponent implements OnInit {
   loadAddressList() {
     this.service.getAddressList().subscribe(
       (data:Address[]) => { this.addressList = data; },
-      (error)=>{alert("Error while during fetching address..!!")}
+      (error)=>{
+        console.log(error.error);
+        //alert("Error while during fetching address..!!")
+      }
     );
   }
   deleteAddress(addid: string) {
 
-    this.service.deleteAddress(addid).subscribe(
-      (data) => {
-        this.isDeleted=true;
-        setTimeout(()=>this.isDeleted=false,3000)
-        this.loadAddressList();
-      },
-      (err) => {
-       
-      }
-    )
+    if(confirm("Are u sure want to delete?")){
+      this.service.deleteAddress(addid).subscribe(
+        (data) => {
+          this.isDeleted=true;
+          setTimeout(()=>this.isDeleted=false,3000)
+          this.loadAddressList();
+        },
+        (err) => {
+         console.log(err.message)
+        }
+      )
+    }
+
   }
   setId = (addid: string) => {
    // this.service.addid = addid;

@@ -53,13 +53,18 @@
                     <mat-hint align="end">Not more then 10 digits long.</mat-hint>
                 </mat-form-field>
                 <br>
-                <mat-form-field class="mb-4">
-                    <input matInput type="text" placeholder="Address Type" formControlName="addressType" id="addressType">
+              <mat-form-field class="mb-4">
+                        <mat-label>Address Type</mat-label>
+                        <mat-select placeholder="Address Type" formControlName="addressType" id="addressType">
+                          <mat-option  *ngFor="let type of addressTypes" [value]="type.value">
+                            {{type.viewValue}}
+                          </mat-option>
+                        </mat-select>
                     <mat-error *ngIf="hasError('addressType', 'required')">Address Type is required</mat-error>
-                </mat-form-field>
+            </mat-form-field>
             </mat-card-content>
             <mat-card-actions align="center">
-                <button mat-raised-button color="primary" [disabled]="!addressForm.valid">Save</button>
+                <button mat-raised-button color="primary" type="submit" [disabled]="addressForm.invalid" >Save</button>
                 <button type="button" mat-raised-button color="warn" (click)="onCancel()">Cancel</button>
             </mat-card-actions>
         </form>

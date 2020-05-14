@@ -7,10 +7,11 @@
     <mat-card class="container text-center">
         <h2 class="mb-4">Shipping Address</h2>
         <form [formGroup]="addressForm" autocomplete="off" novalidate
-            (ngSubmit)="addAddress(addressForm.value)">
+            (ngSubmit)="onSubmit(addressForm.value)">
+            <input type="hidden"  formControlName="addressId" id="addressId">
             <mat-card-content>
                 <mat-form-field class="mb-4">
-                    <input matInput type="text" placeholder="Full Name" formControlName="fullName" id="addline">
+                    <input matInput type="text" placeholder="Full Name" formControlName="fullName" id="full name">
                     <mat-error *ngIf="hasError('fullName', 'required')">Full Name is required</mat-error>
                 </mat-form-field>
                 <mat-form-field class="mb-4">
@@ -54,9 +55,14 @@
                 </mat-form-field>
                 <br>
                 <mat-form-field class="mb-4">
-                    <input matInput type="text" placeholder="Address Type" formControlName="addressType" id="addressType">
-                    <mat-error *ngIf="hasError('addressType', 'required')">Address Type is required</mat-error>
-                </mat-form-field>
+                    <mat-label>Address Type</mat-label>
+                    <mat-select placeholder="Address Type" formControlName="addressType" id="addressType">
+                      <mat-option  *ngFor="let type of addressTypes" [value]="type.value">
+                        {{type.viewValue}}
+                      </mat-option>
+                    </mat-select>
+                <mat-error *ngIf="hasError('addressType', 'required')">Address Type is required</mat-error>
+              </mat-form-field>
             </mat-card-content>
             <mat-card-actions align="center">
                 <button mat-raised-button color="primary" [disabled]="!addressForm.valid">Save</button>
@@ -64,4 +70,5 @@
             </mat-card-actions>
         </form>
     </mat-card>
+    <div class="alert alert-info" *ngIf="success">Address Update Successfully..</div>
 </section>

@@ -51,7 +51,6 @@ import { AboutUsComponent } from './components/shared/about-us/about-us.componen
 import {MatDatepickerModule} from '@angular/material/datepicker';
 import { TimeStampToDatePipe } from './pipes/time-stamp-to-date.pipe';
 import { TimeStampToTimePipe } from './pipes/time-stamp-to-time.pipe';
-import { DeleteProductComponent } from './components/retailer-inventory-management/delete-product/delete-product.component';
 import { SearchProductComponent } from './components/retailer-inventory-management/search-product/search-product.component';
 import { RetailerProductListComponent } from './components/retailer-inventory-management/retailer-product-list/retailer-product-list.component';
 import { RetailerInventoryProductService } from './services/retailer-inventory-product.service';
@@ -65,7 +64,6 @@ import { GrowthReportComponent } from './components/admin-report-management/grow
 import { RevenueReportComponent } from './components/admin-report-management/revenue-report/revenue-report.component';
 import { AddAddressComponent } from './components/address-management/add-address/add-address.component';
 import { EditAddressComponent } from './components/address-management/edit-address/edit-address.component';
-import { DeleteAddressComponent } from './components/address-management/delete-address/delete-address.component';
 import { ViewAddressComponent } from './components/address-management/view-address/view-address.component';
 import {MatDialogModule} from '@angular/material/dialog';
 import { AddressService } from './services/address.service';
@@ -75,6 +73,8 @@ import { AdminGuard } from './router-guard/admin.guard';
 import { RetailerUserGuard } from './router-guard/retailer-user.guard';
 import { ProductMasterGuard } from './router-guard/product-master.guard';
 import { UpdateRetailerProductComponent } from './components/retailer-inventory-management/update-retailer-product/update-retailer-product.component';
+import { LoginGuard } from './router-guard/login.guard';
+import { AdminReportService } from './services/admin-report.service';
 
 @NgModule({
   declarations: [
@@ -103,7 +103,6 @@ import { UpdateRetailerProductComponent } from './components/retailer-inventory-
     AboutUsComponent,
     TimeStampToTimePipe,
     TimeStampToDatePipe,
-    DeleteProductComponent,
     SearchProductComponent,
     RetailerProductListComponent,
     AddRetailerProductComponent,
@@ -114,7 +113,6 @@ import { UpdateRetailerProductComponent } from './components/retailer-inventory-
     RevenueReportComponent,
     AddAddressComponent,
     EditAddressComponent,
-    DeleteAddressComponent,
     ViewAddressComponent,
     ViewProductComponent,
     UpdateRetailerProductComponent
@@ -144,7 +142,7 @@ import { UpdateRetailerProductComponent } from './components/retailer-inventory-
     MatTableModule
    
   ],
-  providers: [AuthGuard,AdminGuard,RetailerUserGuard,ProductMasterGuard, ProductService,CartService,OrderService,RetailerInventoryProductService,UserService,WishlistService,AddressService,{ provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: { appearance: 'fill' } }],
+  providers: [AuthGuard,LoginGuard, AdminGuard,RetailerUserGuard,ProductMasterGuard, ProductService,CartService,OrderService,RetailerInventoryProductService,UserService,WishlistService,AddressService,AdminReportService, { provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: { appearance: 'fill' } }],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

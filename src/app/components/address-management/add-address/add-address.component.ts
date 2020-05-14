@@ -5,6 +5,10 @@ import { AddressService } from 'src/app/services/address.service';
 import { Address } from 'src/app/models/address';
 import { Location } from '@angular/common';
 
+interface AddressType {
+  value: string;
+  viewValue: string;
+}
 @Component({
   selector: 'app-add-address',
   templateUrl: './add-address.component.html',
@@ -14,6 +18,11 @@ export class AddAddressComponent implements OnInit {
   success:boolean;
   addressModel:Address ;
   addressForm:FormGroup;
+  addressTypes: AddressType[] = [
+    {value: 'HOME', viewValue: 'HOME'},
+    {value: 'OFFICE', viewValue: 'OFFICE'},
+    {value: 'OTHER', viewValue: 'OTHER'}
+  ];
 
   constructor(private router:Router, private location:Location, private service:AddressService) { 
   this.addressModel=new Address();}
@@ -62,6 +71,7 @@ export class AddAddressComponent implements OnInit {
       (data)=>{
       this.success=true;
       setTimeout(()=>this.success=false,3000);
+      console.log("Address added successfully...!!")
       this.router.navigate(['/address/view-address'])
     })
 }

@@ -28,7 +28,7 @@ export class CancelOrderComponent implements OnInit {
       (data)=>{
           alert("your order has been cancelled..")
           this.dialogRef.close();
-          this.router.navigate(['']);
+          this.router.navigate(['products']);
     },(err)=>{
       alert("Error while during cancel the order..")
       this.dialogRef.close();

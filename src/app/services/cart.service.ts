@@ -1,11 +1,12 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { CartItem } from '../models/cart-item';
 import { HttpClient } from '@angular/common/http';
 import { ProductService } from './product.service';
 import { Router } from '@angular/router';
 import { environment } from 'src/environments/environment';
 import { Product } from '../models/product';
+import { map } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -36,10 +37,24 @@ export class CartService {
           this.cartServiceEvent.next({"status":"completed"})//emitter
         }   
        ,error=>{
-         alert("Error while fetching the cart Details");
+        console.log(error.error);
+         //alert("Error while fetching the cart Details");
        }
       );
     
+   }
+   getAllProductIdFromCart(){
+
+    return this.http.get(`${this.baseUrl}/carts/${sessionStorage.getItem('userId')}`).pipe(
+      map((result: CartItem[]) => {
+        let productIds = []
+
+        result.forEach(item => productIds.push(item.productId))
+
+        return productIds;
+      })
+    )
+
    }
    getCartDetails(){
  
@@ -61,11 +76,12 @@ export class CartService {
      return this.cartQty;
    }
  
-   addToCart(productItem:Product){
+   addToCart(productItem:Product):Observable<CartItem>{
  
      let cartItem=new CartItem(0,sessionStorage.getItem('userId'),productItem.productId,productItem.productPrice,1);
      console.log("cartItem");
-     this.http.post<CartItem>(`${this.baseUrl}/carts/addToCart`,cartItem).subscribe(
+     return this.http.post<CartItem>(`${this.baseUrl}/carts/addToCart`,cartItem);
+     /*this.http.post<CartItem>(`${this.baseUrl}/carts/addToCart`,cartItem).subscribe(
        (data)=>{
  
          this.getCartDetailsByUser();
@@ -76,14 +92,15 @@ export class CartService {
          //if the products is already in cart
            alert("Error in AddCart API "+error.message);
        }
-     );
+     );*/
    }
    removeCartItemByUserNameAndProductId(cartItem:CartItem){
      this.http.delete(`${this.baseUrl}/carts/removeProductFromCart/${cartItem.userId}/${cartItem.cartId}`).subscribe(
        (data:any)=>{
          this.getCartDetailsByUser();
        },error=>{
-         alert("Error while fetching the cart Details");
+        console.log(error.error);
+         //alert("Error while fetching the cart Details");
        });
    }
    removeAllCartByUserName(userId:String){
@@ -96,7 +113,8 @@ export class CartService {
          this.getCartDetailsByUser();
        },
        (error)=>{
-         alert("Error while fetching the cart Details");
+        console.log(error.error);
+         //alert("Error while fetching the cart Details");
        }
      );
    }

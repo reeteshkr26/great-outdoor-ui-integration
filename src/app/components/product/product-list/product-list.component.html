@@ -32,7 +32,7 @@
 </div>
 <div class="row">
     <div class="col-lg-4 col-md-6 mb-4" *ngFor="let product of productList">
-      <app-product-item [productItem]="product" [addedToWishlist]="wishlistProductId.indexOf(product.productId) >= 0"></app-product-item>
+      <app-product-item [productItem]="product" [addedToWishlist]="wishlistProductId.indexOf(product.productId) >= 0" [addedToCart]="cartPrductIds.indexOf(product.productId) >= 0"></app-product-item>
     </div>
   </div>
 </div>

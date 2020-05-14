@@ -17,7 +17,7 @@ export class AddressService {
 
   }
   getAddressList(): Observable<Address[]> {
-    return this.http.get<Address[]>(`${this.baseUrl}/all/${sessionStorage.getItem('userId')}`);
+    return this.http.get<Address[]>(`${this.baseUrl}/address/all/${sessionStorage.getItem('userId')}`);
   }
 
   getById(addId: string): Observable<Address> {
@@ -31,6 +31,7 @@ export class AddressService {
     return this.http.delete<void>(`${this.baseUrl}/address/delete/${addId}`);
   }
   updateAddress(address: Address): Observable<Address> {
-    return this.http.put<Address>(`${this.baseUrl}/address/update}`, address);
+    console.log(address);
+    return this.http.put<Address>(`${this.baseUrl}/address/update`, address);
   }
 }

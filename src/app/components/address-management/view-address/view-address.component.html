@@ -17,12 +17,13 @@
                 <div class="col-md-4" *ngFor="let item of addressList; let i=index">
                     <div class="card mb-4 shadow-sm">
                         <div class="card-body">
-                            <p class="card-text">{{item.fullName}}</p>
-                            <p class="card-text">{{item.addressLine}}</p>
-                            <p class="card-text">{{item.city}}</p>
-                            <p class="card-text">{{item.pincode}}</p>
-                            <p class="card-text">{{item.state}}</p>
-                            <p class="card-text">{{item.phoneNo}}</p>
+                            <p class="card-text"><b>Full Name: &nbsp;</b>{{item.fullName}}</p>
+                            <p class="card-text"><b>Address: &nbsp;</b>{{item.addressLine}}</p>
+                            <p class="card-text"><b>City: &nbsp;</b>{{item.city}}</p>
+                            <p class="card-text"><b>Pin code: &nbsp;</b>{{item.pincode}}</p>
+                            <p class="card-text"><b>State: &nbsp;</b>{{item.state}}</p>
+                            <p class="card-text"><b>Phone No: &nbsp;</b>{{item.phoneNo}} <span *ngIf="item.otherPhnoeNo!=''">&nbsp; ,{{item.otherPhoneNo}}</span></p>
+                            <p class="card-text"><b>Address Type: &nbsp;</b> {{item.addressType}}</p>
                             <div class="d-flex justify-content-between align-items-center">
                                 <div class="btn-group">
                                     <button type="button" class="btn btn-sm btn-outline-primary" type="submit"

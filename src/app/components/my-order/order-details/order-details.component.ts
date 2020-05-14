@@ -7,6 +7,7 @@ import { AddressService } from 'src/app/services/address.service';
 import { Product } from 'src/app/models/product';
 import { CancelOrderComponent } from '../cancel-order/cancel-order.component';
 import { Address } from 'src/app/models/address';
+import { OrderModel } from 'src/app/models/order-model';
 
 @Component({
   selector: 'app-order-details',
@@ -19,7 +20,7 @@ export class OrderDetailsComponent implements OnInit {
   constructor(private dialog:MatDialog,private route:ActivatedRoute,private orderService:OrderService,private productService:ProductService
     ,private addressService:AddressService) { }
 
-  orderedItem:any;
+  orderedItem:OrderModel;
   deliveryAddress:Address;
   product:Product;
   fullName:string;
@@ -49,8 +50,11 @@ export class OrderDetailsComponent implements OnInit {
       })
   }
 
-  getAddressAndProductDetails(orderedItem:any){
-    this.addressService.getById(orderedItem.addressId).subscribe((data:Address)=>{
+  getAddressAndProductDetails(orderedItem:OrderModel){
+
+    this.deliveryAddress=orderedItem.addressModel;
+    this.product=orderedItem.productModel;
+   /* this.addressService.getById(orderedItem.addressId).subscribe((data:Address)=>{
       this.deliveryAddress=data;
     },(err)=>{
       alert("Error while during fetching address details by address id")
@@ -66,7 +70,7 @@ export class OrderDetailsComponent implements OnInit {
         }
       },(err)=>{
         alert("Error while during address fetching by address Id")
-      })*/
+      })
       this.productService.getProduct(orderedItem.productId).subscribe((res:Product)=>{
         this.product=res;
       },(error)=>{

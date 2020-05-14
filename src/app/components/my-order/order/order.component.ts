@@ -4,6 +4,7 @@ import { OrderService } from 'src/app/services/order.service';
 import { Router } from '@angular/router';
 import { AddressService } from 'src/app/services/address.service';
 import { ProductService } from 'src/app/services/product.service';
+import { OrderModel } from 'src/app/models/order-model';
 
 @Component({
   selector: 'app-order',
@@ -12,7 +13,7 @@ import { ProductService } from 'src/app/services/product.service';
 })
 export class OrderComponent implements OnInit {
 
-  orderList:any[]=[];
+  orderList:OrderModel[]=[];
   refundSuccess:boolean=false;
   productsList:Product[]=[];
   productItem:Product;
@@ -20,7 +21,7 @@ export class OrderComponent implements OnInit {
 
   ngOnInit(): void {
     if((!!sessionStorage.getItem('userId'))&&(sessionStorage.getItem('userRole')=='RETAILER_USER')){
-      this.loadProductList()
+      //this.loadProductList()
       this.loadOrderList();
     }   
   }
@@ -35,12 +36,13 @@ export class OrderComponent implements OnInit {
       this.orderList=data;
       console.log(this.orderList);
     },(error)=>{
-      alert("Error while during fetching order list");
+      console.log(error.message);
+     // alert("Error while during fetching order list");
     }
     )
   }
 
-  populateOrderDetails(orderedItem:any){
+  populateOrderDetails(orderedItem:OrderModel){
     console.log("populate order details");
     this.router.navigate(['orders', orderedItem.orderId]);
   }
