@@ -72,7 +72,7 @@ export class AddProductComponent extends FormComponentBase implements OnInit, Af
   console.log(value);
     this.productService.addProduct(this.productForm.value).subscribe(data =>
         data,
-      error => console.log(error),
+      error => console.log(error.error),
       () => {
         alert('Product added successfully!');
       });

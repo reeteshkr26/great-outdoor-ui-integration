@@ -13,6 +13,7 @@ export class RetailerProductListComponent implements OnInit {
   productList:RetailerInventoryProduct[]=[];
    model:RetailerInventoryProduct;
    deleteSuccess:boolean;
+   searchText:string='';
   constructor(private service:RetailerInventoryProductService,private router:Router) { }
 
   ngOnInit(): void {
@@ -46,6 +47,10 @@ export class RetailerProductListComponent implements OnInit {
   }
   goToAddProduct(){
     this.router.navigate(['add-retailer-product'])
+  }
+  onSearch(item:RetailerInventoryProduct){
+    return (item.productName.toLocaleLowerCase().indexOf(this.searchText.toLocaleLowerCase())) != -1;
+    
   }
 
 }

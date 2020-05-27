@@ -2,6 +2,11 @@
 <div class="card mt-8" style="margin-top: 1%;">
   <div class="alert alert-info" *ngIf="productList.length==0">Data not found</div>
     <mat-card fxFlex="80" *ngIf="productList.length>0">
+      <form class="form-inline">
+        <input class="form-control" name="searchInput" placeholder="Search by product Name" #searchInput="ngModel" [(ngModel)]="searchText"
+            style="width: 80%;">
+        <button class="btn btn-outline-primary" (click)="searchText=''">X</button>
+    </form>
     <table class="table table-sum" style="border: 1px;">
       <thead class="table-primary">
         <th>Retailer Id</th>
@@ -17,7 +22,7 @@
         <th>Action</th>
       </thead>
       <ng-container *ngFor="let item of productList; let i=index">
-          <tr >
+          <tr class="table-dark" *ngIf="onSearch(item)">
             <td>{{item.retailerId}}</td>
             <td>{{item.productId}}</td>
             <td>{{item.productCategory}}</td>

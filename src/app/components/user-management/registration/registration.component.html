@@ -9,20 +9,28 @@
             <div class="form-group">
                 <label for="userid">Userid:</label>
                 <input type="text" class="form-control" placeholder="Enter userid" name="userid"
-                    [(ngModel)]="user.userId" #userid="ngModel" required
+                    [(ngModel)]="user.userId" #userid="ngModel" required pattern="^[a-zA-Z][a-zA-Z0-9.,$;]+$"
                     [class.is-invalid]="userid.invalid && userid.touched">
-                <small class="text-danger" [class.d-none]="userid.valid || userid.untouched ">UserId is required</small>
+                    <div class="hint">userId should be alphanumeric and start with alphabet.</div>
+                 <div *ngIf="userid.invalid && userid.errors && userid.touched"
+                    class="alert alert-warning alert-dismissible fade show">
+                    <button type="button" class="close" data-dismiss="alert">&times;</button>
+                    <small class="text-danger" *ngIf="userid.errors.required">Userid is required </small>
+                    <small class="text-danger" *ngIf="userid.errors.pattern">Enter the valid Userid</small>
+                </div>
             </div>
 
 
             <div class="form-group">
                 <label for="email">Email:</label>
                 <input type="email" class="form-control" placeholder="Enter email" name="email"
-                    [(ngModel)]="user.email" required #email="ngModel"
+                    [(ngModel)]="user.email" required pattern="^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$" #email="ngModel"
                     [class.is-invalid]="email.invalid && email.touched">
-                <div *ngIf="email.errors && (email.invalid && email.touched)">
-                    <small class="text-danger" *ngIf="email.errors.required">Email is required</small>
-                    <small class="text-danger" *ngIf="email.errors.pattern">Enter the valid userid</small>
+               <div *ngIf="email.errors && email.invalid && email.touched"
+                    class="alert alert-warning alert-dismissible fade show">
+                    <button type="button" class="close" data-dismiss="alert">&times;</button>
+                    <small class="text-danger" *ngIf="email.errors.required">EmailId is required</small>
+                    <small class="text-danger" *ngIf="email.errors.pattern">Enter the valid emailid</small>
                 </div>
             </div>
 
@@ -30,10 +38,14 @@
             <div class="form-group">
                 <label for="phoneno">PhoneNo:</label>
                 <input type="text" class="form-control" placeholder="Enter phoneno" name="phoneno"
-                    [(ngModel)]="user.phoneNo" #phoneno="ngModel" required
+                    [(ngModel)]="user.phoneNo" #phoneno="ngModel" required pattern="^[2-9]{1}[0-9]{9}$"
                     [class.is-invalid]="phoneno.invalid && phoneno.touched">
-                <small class="text-danger" [class.d-none]="phoneno.valid || phoneno.untouched ">PhoneNo is
-                    required</small>
+                <div *ngIf="phoneno.invalid && phoneno.errors && phoneno.touched"
+                    class="alert alert-warning alert-dismissible fade show">
+                    <button type="button" class="close" data-dismiss="alert">&times;</button>
+                    <small class="text-danger" *ngIf="phoneno.errors.required">Phoneno is required </small>
+                    <small class="text-danger" *ngIf="phoneno.errors.pattern">Enter the valid phoneno</small>
+                </div>
             </div>
 
 
@@ -41,10 +53,15 @@
             <div class="form-group">
                 <label for="pwd">Password:</label>
                 <input type="password" class="form-control" placeholder="Enter password" name="password"
-                    [(ngModel)]="user.password" #password="ngModel" required
+                    [(ngModel)]="user.password" #password="ngModel" required pattern="(?=^.{8,}$)((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$"
                     [class.is-invalid]="password.invalid && password.touched">
-                <small class="text-danger" [class.d-none]="password.valid || password.untouched ">Password is
-                    required</small>
+                    <div class="hint">password should have one small letter, one capital letter, one digit, one special character like @ and must be at least 8 characters long.</div>
+              <div *ngIf="password.invalid && password.errors && password.touched"
+                    class="alert alert-warning alert-dismissible fade show">
+                    <button type="button" class="close" data-dismiss="alert">&times;</button>
+                    <small class="text-danger" *ngIf="password.errors.required">Password is required </small>
+                    <small class="text-danger" *ngIf="password.errors.pattern">Enter the valid password</small>
+                </div>
             </div>
 
 

@@ -48,8 +48,8 @@ export class AddRetailerProductComponent implements OnInit {
         this.success = true;
         setTimeout(() => this.success = false, 3000);
         alert('PRODUCT ADDED SUCCESSFULLY :-)');
-        this.router.navigate(['viewall-retailer-product']);
-      }, (error) => { alert("Error:" + error.error) })
+       // this.router.navigate(['viewall-retailer-product']);
+      }, (err) => { alert("Error:" + err.error) })
     }
   }
 

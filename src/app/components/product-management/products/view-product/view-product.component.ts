@@ -10,7 +10,7 @@ import { Router } from '@angular/router';
 })
 export class ViewProductComponent implements OnInit {
   products: Product[];
-
+  searchText:string='';
 
   constructor(private productService: ProductService, private router: Router) {
   }
@@ -48,6 +48,11 @@ export class ViewProductComponent implements OnInit {
       console.log('cancel')
     }
     
+    
+  }
+
+  onSearch(item:Product){
+    return (item.productName.toLocaleLowerCase().indexOf(this.searchText.toLocaleLowerCase())) != -1;
     
   }
 
